@@ -1,0 +1,27 @@
+{
+  "name": "@lichess/api",
+  "version": "0.0.1",
+  "type": "module",
+  "author": "GameRoMan",
+  "license": "MIT",
+  "scripts": {
+    "build": "bunx tsdown",
+    "npm:publish": "bun publish --access public"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "tsdown": "^0.15.8",
+    "typescript": "^5.9.2"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  }
+}
