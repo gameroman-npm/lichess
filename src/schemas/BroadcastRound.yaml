@@ -1,0 +1,23 @@
+type: object
+properties:
+  round:
+    $ref: "./BroadcastRoundInfo.yaml"
+  tour:
+    $ref: "./BroadcastTour.yaml"
+  study:
+    $ref: "./BroadcastRoundStudyInfo.yaml"
+  games:
+    type: array
+    items:
+      $ref: "./BroadcastRoundGame.yaml"
+  group:
+    $ref: "./BroadcastGroup.yaml"
+  isSubscribed:
+    type: boolean
+    description: Indicates if the user making the request is subscribed to the broadcast
+
+required:
+  - round
+  - tour
+  - study
+  - games

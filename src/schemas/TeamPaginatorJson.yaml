@@ -1,0 +1,31 @@
+type: object
+properties:
+  currentPage:
+    type: number
+    example: 4
+  maxPerPage:
+    type: number
+    example: 15
+  currentPageResults:
+    type: array
+    items:
+      $ref: "./Team.yaml"
+  previousPage:
+    type: [number, "null"]
+    example: 3
+  nextPage:
+    type: [number, "null"]
+    example: 5
+  nbResults:
+    type: number
+  nbPages:
+    type: number
+
+required:
+  - currentPage
+  - maxPerPage
+  - currentPageResults
+  - previousPage
+  - nextPage
+  - nbResults
+  - nbPages

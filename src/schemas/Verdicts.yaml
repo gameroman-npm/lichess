@@ -1,0 +1,13 @@
+type: object
+
+properties:
+  accepted:
+    type: boolean
+  list:
+    type: array
+    items:
+      $ref: "./Verdict.yaml"
+
+required:
+  - accepted
+  - list

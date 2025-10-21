@@ -1,0 +1,7 @@
+type: array
+
+minItems: 10
+maxItems: 10
+
+items:
+  $ref: "./TopUser.yaml"

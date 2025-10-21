@@ -1,0 +1,35 @@
+type: object
+
+properties:
+  id:
+    type: string
+  color:
+    $ref: "./GameColor.yaml"
+  url:
+    type: string
+  variant:
+    $ref: "./VariantKey.yaml"
+  speed:
+    type: string
+    const: correspondence
+  perf:
+    type: string
+    const: correspondence
+  rated:
+    type: boolean
+  opponent:
+    type: object
+    required:
+      - user
+      - rating
+    properties:
+      user:
+        type: string
+      rating:
+        type: number
+
+required:
+  - id
+  - color
+  - url
+  - opponent

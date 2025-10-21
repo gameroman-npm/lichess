@@ -1,0 +1,176 @@
+type: object
+properties:
+  dark:
+    type: boolean
+  transp:
+    type: boolean
+  bgImg:
+    type: string
+    format: uri
+  is3d:
+    type: boolean
+  theme:
+    type: string
+    enum:
+      - blue
+      - blue2
+      - blue3
+      - blue-marble
+      - canvas
+      - wood
+      - wood2
+      - wood3
+      - wood4
+      - maple
+      - maple2
+      - brown
+      - leather
+      - green
+      - marble
+      - green-plastic
+      - grey
+      - metal
+      - olive
+      - newspaper
+      - purple
+      - purple-diag
+      - pink
+      - ic
+  pieceSet:
+    type: string
+    enum:
+      - cburnett
+      - merida
+      - alpha
+      - pirouetti
+      - chessnut
+      - chess7
+      - reillycraig
+      - companion
+      - riohacha
+      - kosal
+      - leipzig
+      - fantasy
+      - spatial
+      - california
+      - pixel
+      - maestro
+      - fresca
+      - cardinal
+      - gioco
+      - tatiana
+      - staunty
+      - governor
+      - dubrovny
+      - icpieces
+      - shapes
+      - letter
+  theme3d:
+    type: string
+    enum:
+      - Black-White-Aluminium
+      - Brushed-Aluminium
+      - China-Blue
+      - China-Green
+      - China-Grey
+      - China-Scarlet
+      - Classic-Blue
+      - Gold-Silver
+      - Light-Wood
+      - Power-Coated
+      - Rosewood
+      - Marble
+      - Wax
+      - Jade
+      - Woodi
+  pieceSet3d:
+    type: string
+    enum:
+      - Basic
+      - Wood
+      - Metal
+      - RedVBlue
+      - ModernJade
+      - ModernWood
+      - Glass
+      - Trimmed
+      - Experimental
+      - Staunton
+      - CubesAndPi
+  soundSet:
+    type: string
+    enum:
+      - silent
+      - standard
+      - piano
+      - nes
+      - sfx
+      - futuristic
+      - robot
+      - music
+      - speech
+  blindfold:
+    type: integer
+  autoQueen:
+    type: integer
+  autoThreefold:
+    type: integer
+  takeback:
+    type: integer
+  moretime:
+    type: integer
+  clockTenths:
+    type: integer
+  clockBar:
+    type: boolean
+  clockSound:
+    type: boolean
+  premove:
+    type: boolean
+  animation:
+    type: integer
+  pieceNotation:
+    type: integer
+  captured:
+    type: boolean
+  follow:
+    type: boolean
+  highlight:
+    type: boolean
+  destination:
+    type: boolean
+  coords:
+    type: integer
+  replay:
+    type: integer
+  challenge:
+    type: integer
+  message:
+    type: integer
+  submitMove:
+    type: integer
+  confirmResign:
+    type: integer
+  insightShare:
+    type: integer
+  keyboardMove:
+    type: integer
+  voiceMove:
+    type: boolean
+  zen:
+    type: integer
+  ratings:
+    type: integer
+  moveEvent:
+    type: integer
+  rookCastle:
+    type: integer
+  flairs:
+    type: boolean
+  sayGG:
+    type: integer
+    enum:
+      - 0
+      - 1
+      - 2
+    description: 0 = No, 1 = When losing, 2 = When losing or drawing

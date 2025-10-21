@@ -1,0 +1,83 @@
+type: object
+properties:
+  type:
+    type: string
+    const: gameFull
+  id:
+    type: string
+  variant:
+    $ref: "./Variant.yaml"
+  clock:
+    type: object
+    properties:
+      initial:
+        type: integer
+        format: int64
+        description: Initial time in milliseconds
+      increment:
+        type: integer
+        format: int64
+        description: Increment time in milliseconds
+  speed:
+    $ref: "./Speed.yaml"
+  perf:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Translated perf name (e.g. "Classical" or "Blitz")
+  rated:
+    type: boolean
+  createdAt:
+    type: integer
+    format: int64
+  white:
+    $ref: "./GameEventPlayer.yaml"
+  black:
+    $ref: "./GameEventPlayer.yaml"
+  initialFen:
+    type: string
+    default: "startpos"
+  state:
+    $ref: "./GameStateEvent.yaml"
+  daysPerTurn:
+    type: integer
+    description: If the game is correspondence
+  tournamentId:
+    type: string
+required:
+  - type
+  - id
+  - variant
+  - speed
+  - perf
+  - rated
+  - createdAt
+  - white
+  - black
+  - initialFen
+  - state
+example:
+  {
+    "id": "BEOucQJo",
+    "variant": { "key": "standard", "name": "Standard", "short": "Std" },
+    "speed": "rapid",
+    "perf": { "name": "Rapid" },
+    "rated": false,
+    "createdAt": 1745112707998,
+    "white": { "id": "bobby", "name": "Bobby", "title": null, "rating": 1751 },
+    "black": { "id": "mary", "name": "Mary", "title": null, "rating": 1021 },
+    "initialFen": "startpos",
+    "clock": { "initial": 900000, "increment": 0 },
+    "type": "gameFull",
+    "state":
+      {
+        "type": "gameState",
+        "moves": "d2d3",
+        "wtime": 900000,
+        "btime": 900000,
+        "winc": 0,
+        "binc": 0,
+        "status": "started",
+      },
+  }

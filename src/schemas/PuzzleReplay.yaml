@@ -1,0 +1,38 @@
+type: object
+
+properties:
+  replay:
+    type: object
+    properties:
+      days:
+        type: number
+      theme:
+        type: string
+      nb:
+        type: number
+      remaining:
+        type: array
+        items:
+          type: string
+    required:
+      - days
+      - theme
+      - nb
+      - remaining
+  angle:
+    type: object
+    properties:
+      key:
+        type: string
+      name:
+        type: string
+      desc:
+        type: string
+    required:
+      - key
+      - name
+      - desc
+
+required:
+  - replay
+  - angle

@@ -1,0 +1,10 @@
+type: object
+properties:
+  id:
+    $ref: "./GameStatusId.yaml"
+  name:
+    $ref: "./GameStatusName.yaml"
+
+required:
+  - id
+  - name

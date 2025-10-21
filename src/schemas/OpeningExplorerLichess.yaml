@@ -1,0 +1,93 @@
+type: object
+properties:
+  opening:
+    oneOf:
+      - $ref: "./OpeningExplorerOpening.yaml"
+      - type: "null"
+  white:
+    type: number
+  draws:
+    type: number
+  black:
+    type: number
+  moves:
+    type: array
+    items:
+      type: object
+      properties:
+        uci:
+          type: string
+        san:
+          type: string
+        averageRating:
+          type: number
+        white:
+          type: number
+        draws:
+          type: number
+        black:
+          type: number
+        game:
+          oneOf:
+            - $ref: "./OpeningExplorerLichessGame.yaml"
+            - type: "null"
+        opening:
+          oneOf:
+            - $ref: "./OpeningExplorerOpening.yaml"
+            - type: "null"
+      required:
+        - uci
+        - san
+        - averageRating
+        - white
+        - draws
+        - black
+        - game
+        - opening
+  topGames:
+    type: array
+    items:
+      allOf:
+        - type: object
+          properties:
+            uci:
+              type: string
+          required:
+            - uci
+        - $ref: "./OpeningExplorerLichessGame.yaml"
+  recentGames:
+    type: array
+    items:
+      allOf:
+        - type: object
+          properties:
+            uci:
+              type: string
+          required:
+            - uci
+        - $ref: "./OpeningExplorerLichessGame.yaml"
+  history:
+    type: array
+    items:
+      type: object
+      properties:
+        month:
+          type: string
+        white:
+          type: number
+        draws:
+          type: number
+        black:
+          type: number
+      required:
+        - month
+        - white
+        - draws
+        - black
+required:
+  - opening
+  - white
+  - draws
+  - black
+  - moves
+  - topGames

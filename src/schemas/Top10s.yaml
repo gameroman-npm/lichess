@@ -1,0 +1,44 @@
+type: object
+
+properties:
+  bullet:
+    $ref: "./PerfTop10.yaml"
+  blitz:
+    $ref: "./PerfTop10.yaml"
+  rapid:
+    $ref: "./PerfTop10.yaml"
+  classical:
+    $ref: "./PerfTop10.yaml"
+  ultraBullet:
+    $ref: "./PerfTop10.yaml"
+  crazyhouse:
+    $ref: "./PerfTop10.yaml"
+  chess960:
+    $ref: "./PerfTop10.yaml"
+  kingOfTheHill:
+    $ref: "./PerfTop10.yaml"
+  threeCheck:
+    $ref: "./PerfTop10.yaml"
+  antichess:
+    $ref: "./PerfTop10.yaml"
+  atomic:
+    $ref: "./PerfTop10.yaml"
+  horde:
+    $ref: "./PerfTop10.yaml"
+  racingKings:
+    $ref: "./PerfTop10.yaml"
+
+required:
+  - bullet
+  - blitz
+  - rapid
+  - classical
+  - ultraBullet
+  - crazyhouse
+  - chess960
+  - kingOfTheHill
+  - threeCheck
+  - antichess
+  - atomic
+  - horde
+  - racingKings

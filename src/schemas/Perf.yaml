@@ -1,0 +1,20 @@
+type: object
+properties:
+  games:
+    type: integer
+  rating:
+    type: integer
+  rd:
+    type: integer
+    description: rating deviation
+  prog:
+    type: integer
+  prov:
+    type: boolean
+    description: only appears if a user's perf rating are [provisional](https://lichess.org/faq#provisional)
+
+required:
+  - games
+  - rating
+  - rd
+  - prog

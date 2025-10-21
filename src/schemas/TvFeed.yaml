@@ -1,0 +1,9 @@
+type: object
+
+oneOf:
+  - $ref: "./TvFeedFeatured.yaml"
+  - $ref: "./TvFeedFen.yaml"
+
+required:
+  - t
+  - d

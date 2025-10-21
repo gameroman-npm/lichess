@@ -1,0 +1,30 @@
+type: object
+
+properties:
+  active:
+    type: array
+    items:
+      $ref: "./BroadcastWithLastRound.yaml"
+  upcoming:
+    type: array
+    items:
+      $ref: "./BroadcastWithLastRound.yaml"
+  past:
+    type: object
+    properties:
+      currentPage:
+        type: integer
+        example: 4
+      maxPerPage:
+        type: integer
+        example: 20
+      currentPageResults:
+        type: array
+        items:
+          $ref: "./BroadcastWithLastRound.yaml"
+      previousPage:
+        type: [number, "null"]
+        example: 3
+      nextPage:
+        type: [number, "null"]
+        example: 5

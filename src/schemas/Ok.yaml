@@ -1,0 +1,3 @@
+properties:
+  ok:
+    type: boolean

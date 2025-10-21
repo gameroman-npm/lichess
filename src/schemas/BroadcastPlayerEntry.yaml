@@ -1,0 +1,26 @@
+type: object
+allOf:
+  - $ref: "./BroadcastPlayerWithFed.yaml"
+  - type: object
+    properties:
+      score:
+        type: number
+        example: 2.5
+      played:
+        type: integer
+        example: 7
+      ratingDiff:
+        type: integer
+        example: -5
+      performance:
+        type: integer
+        example: 2138
+      tiebreaks:
+        type: array
+        maxItems: 5
+        items:
+          $ref: "./BroadcastPlayerTiebreak.yaml"
+      rank:
+        type: integer
+        example: 1
+        minimum: 1

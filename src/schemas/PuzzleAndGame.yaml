@@ -1,0 +1,92 @@
+type: object
+
+properties:
+  game:
+    type: object
+    properties:
+      clock:
+        type: string
+      id:
+        type: string
+      perf:
+        type: object
+        properties:
+          key:
+            $ref: "./PerfType.yaml"
+          name:
+            type: string
+        required:
+          - key
+          - name
+      pgn:
+        type: string
+      players:
+        type: array
+        items:
+          type: object
+          properties:
+            color:
+              type: string
+            flair:
+              $ref: "./Flair.yaml"
+            id:
+              type: string
+            name:
+              type: string
+            patron:
+              type: boolean
+              deprecated: true
+            patronColor:
+              $ref: "./PatronColor.yaml"
+            rating:
+              type: integer
+            title:
+              $ref: "./Title.yaml"
+          required:
+            - color
+            - id
+            - name
+            - rating
+          minItems: 2
+          maxItems: 2
+      rated:
+        type: boolean
+    required:
+      - clock
+      - id
+      - perf
+      - pgn
+      - players
+      - rated
+    additionalProperties: false
+  puzzle:
+    type: object
+    properties:
+      id:
+        type: string
+      initialPly:
+        type: integer
+      plays:
+        type: integer
+      rating:
+        type: integer
+      solution:
+        type: array
+        items:
+          type: string
+      themes:
+        type: array
+        items:
+          type: string
+    required:
+      - id
+      - initialPly
+      - plays
+      - rating
+      - solution
+      - themes
+    additionalProperties: false
+
+required:
+  - game
+  - puzzle

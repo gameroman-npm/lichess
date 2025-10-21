@@ -1,0 +1,61 @@
+type: object
+properties:
+  type:
+    type: string
+    const: gameState
+  moves:
+    type: string
+    description: |
+      Current moves in UCI format (King to rook for Chess690-compatible castling
+      notation)
+  wtime:
+    type: integer
+    description: Integer of milliseconds White has left on the clock
+  btime:
+    type: integer
+    description: Integer of milliseconds Black has left on the clock
+  winc:
+    type: integer
+    description: Integer of White Fisher increment.
+  binc:
+    type: integer
+    description: Integer of Black Fisher increment.
+  status:
+    $ref: "./GameStatusName.yaml"
+  winner:
+    $ref: "./GameColor.yaml"
+    description: Color of the winner, if any
+  wdraw:
+    type: boolean
+    description: true if white is offering draw, else omitted
+  bdraw:
+    type: boolean
+    description: true if black is offering draw, else omitted
+  wtakeback:
+    type: boolean
+    description: true if white is proposing takeback, else omitted
+  btakeback:
+    type: boolean
+    description: true if black is proposing takeback, else omitted
+required:
+  - type
+  - moves
+  - wtime
+  - btime
+  - winc
+  - binc
+  - status
+example:
+  {
+    "type": "gameState",
+    "moves": "e2e4 c7c5 f2f4 d7d6 g1f3 b8c6 f1c4 g8f6 d2d3 g7g6 e1g1 f8g7 b1c3",
+    "wtime": 7598040,
+    "btime": 8395220,
+    "winc": 10000,
+    "binc": 10000,
+    "wdraw": false,
+    "bdraw": false,
+    "wtakeback": false,
+    "btakeback": false,
+    "status": "started",
+  }

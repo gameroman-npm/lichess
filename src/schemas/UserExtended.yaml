@@ -1,0 +1,34 @@
+allOf:
+  - $ref: "./User.yaml"
+
+  - properties:
+      url:
+        type: string
+        format: uri
+        example: https://lichess.org/@/georges
+      playing:
+        type: string
+        format: uri
+        example: https://lichess.org/yqfLYJ5E/black
+      count:
+        $ref: "./Count.yaml"
+      streaming:
+        type: boolean
+        example: false
+      streamer:
+        $ref: "./UserStreamer.yaml"
+      followable:
+        type: boolean
+        example: true
+        description: only appears if the request is [authenticated with OAuth2](#section/Introduction/Authentication)
+      following:
+        type: boolean
+        example: false
+        description: only appears if the request is [authenticated with OAuth2](#section/Introduction/Authentication)
+      blocking:
+        type: boolean
+        example: false
+        description: only appears if the request is [authenticated with OAuth2](#section/Introduction/Authentication)
+
+required:
+  - url

@@ -1,0 +1,43 @@
+type: object
+properties:
+  all:
+    type: integer
+  rated:
+    type: integer
+  ai:
+    type: integer
+  draw:
+    type: integer
+  drawH:
+    type: integer
+  loss:
+    type: integer
+  lossH:
+    type: integer
+  win:
+    type: integer
+  winH:
+    type: integer
+  bookmark:
+    type: integer
+  playing:
+    type: integer
+  import:
+    type: integer
+  me:
+    type: integer
+
+required:
+  - all
+  - rated
+  - ai
+  - draw
+  - drawH
+  - loss
+  - lossH
+  - win
+  - winH
+  - bookmark
+  - playing
+  - import
+  - me

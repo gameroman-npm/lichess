@@ -1,0 +1,24 @@
+type: object
+
+properties:
+  days:
+    type: integer
+  global:
+    $ref: "./PuzzlePerformance.yaml"
+  themes:
+    type: object
+    additionalProperties:
+      type: object
+      properties:
+        results:
+          $ref: "./PuzzlePerformance.yaml"
+        theme:
+          type: string
+      required:
+        - results
+        - theme
+
+required:
+  - days
+  - global
+  - themes

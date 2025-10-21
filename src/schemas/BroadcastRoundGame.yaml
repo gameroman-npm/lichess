@@ -1,0 +1,47 @@
+type: object
+
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  fen:
+    type: string
+  players:
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: "./Title.yaml"
+        rating:
+          type: integer
+        fideId:
+          type: integer
+        fed:
+          type: string
+        clock:
+          type: integer
+  lastMove:
+    type: string
+  check:
+    type: string
+    enum:
+      - "+"
+      - "#"
+  thinkTime:
+    type: integer
+  status:
+    description: The result of the game
+    type: string
+    enum:
+      - "*"
+      - "1-0"
+      - "0-1"
+      - "½-½"
+
+required:
+  - id
+  - name

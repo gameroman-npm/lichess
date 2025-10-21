@@ -1,0 +1,12 @@
+type: object
+properties:
+  key:
+    $ref: "./VariantKey.yaml"
+  name:
+    type: string
+  short:
+    type: string
+
+required:
+  - key
+  - name
