@@ -13,9 +13,13 @@
     "README.md",
     "LICENSE"
   ],
+  "dependencies": {
+    "zod": "^4.1.12"
+  },
   "devDependencies": {
-    "tsdown": "^0.15.8",
-    "typescript": "^5.9.2"
+    "@lichess-org/types": "^2.0.88",
+    "tsdown": "^0.15.9",
+    "typescript": "^5.9.3"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
