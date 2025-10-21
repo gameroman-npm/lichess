@@ -26,11 +26,7 @@ const ArenaTournament = z.object({
   hasMaxRating: z.boolean().optional(),
   maxRating: ArenaRatingObj.optional(),
   minRating: ArenaRatingObj.optional(),
-  minRatedGames: z
-    .object({
-      nb: z.int().optional(),
-    })
-    .optional(),
+  minRatedGames: z.object({ nb: z.int().optional() }).optional(),
   botsAllowed: z.boolean().optional(),
   minAccountAgeInDays: z.int().optional(),
   onlyTitled: z.boolean().optional(),

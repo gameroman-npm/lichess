@@ -3,6 +3,8 @@ import { z } from "zod";
 const SchemaUnparsed = z.unknown().brand("SchemaUnparsed");
 type SchemaUnparsed = z.infer<typeof SchemaUnparsed>;
 
+const Primitive = z.union([z.string(), z.number(), z.boolean()]);
+
 const BaseSchema = z.object({
   // Only exists on some types
   $ref: z.never().optional(),
@@ -10,11 +12,11 @@ const BaseSchema = z.object({
   oneOf: z.never().optional(),
   // Might exist on some of the types
   description: z.string().optional(),
+  default: Primitive.optional(),
+  maxItems: z.any().optional()
 });
 
-const SchemaSchemaRef = BaseSchema.extend({
-  $ref: z.string(),
-}).strict();
+const SchemaSchemaRef = BaseSchema.extend({ $ref: z.string() }).strict();
 
 const SchemaSchemaString = BaseSchema.extend({
   type: z.literal("string"),
@@ -22,6 +24,8 @@ const SchemaSchemaString = BaseSchema.extend({
   example: z.union([z.string()]).optional(),
   format: z.literal("uri").optional(),
   enum: z.array(z.string()).optional(),
+  minLength: z.number().optional(),
+  maxLength: z.number().optional(),
 }).strict();
 
 const SchemaSchemaInteger = BaseSchema.extend({
@@ -112,7 +116,14 @@ function convertToZod_(schema: Schema): ConvertResult {
         if (schema.format === "uri") {
           return { zodSchema: "z.url()", refs: [] };
         }
-        return { zodSchema: "z.string()", refs: [] };
+        let schemaStr = "z.string()";
+        if (schema.minLength !== undefined) {
+          schemaStr += `.min(${schema.minLength})`;
+        }
+        if (schema.maxLength !== undefined) {
+          schemaStr += `.max(${schema.maxLength})`;
+        }
+        return { zodSchema: schemaStr, refs: [] };
       }
       case "integer": {
         if (schema.enum) {
