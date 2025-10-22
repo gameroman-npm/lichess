@@ -7,7 +7,7 @@
         "zod": "^4.1.12",
       },
       "devDependencies": {
-        "@lichess-org/types": "^2.0.88",
+        "@lichess-org/types": "^2.0.89",
         "tsdown": "^0.15.9",
         "typescript": "^5.9.3",
       },
@@ -38,7 +38,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@lichess-org/types": ["@lichess-org/types@2.0.88", "", {}, "sha512-cbB2oXW/5Vr8b3LroLC4ZrUnReFnckhr13hoLm1xdqll8DvsdP1i6SOhnG0nam/zZ61Wk0NSTk3niif0OivQtw=="],
+    "@lichess-org/types": ["@lichess-org/types@2.0.89", "", {}, "sha512-420KH7tshSudHG8u4oV/QfUpbv9qsojlUkuknUOBcmMD/NMyBzWNN4xKtBSaVuE2gTgHEq3nST58xPvUBwjUoA=="],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.0.7", "", { "dependencies": { "@emnapi/core": "^1.5.0", "@emnapi/runtime": "^1.5.0", "@tybys/wasm-util": "^0.10.1" } }, "sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw=="],
 

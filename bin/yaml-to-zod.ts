@@ -6,14 +6,21 @@ type SchemaUnparsed = z.infer<typeof SchemaUnparsed>;
 const Primitive = z.union([z.string(), z.number(), z.boolean()]);
 
 const BaseSchema = z.object({
-  // Only exists on some types
+  // `$ref` is handled specially
   $ref: z.never().optional(),
-  type: z.never().optional(),
+
+  // `oneOf`, `allOf`, `anyOf` are handled specially
   oneOf: z.never().optional(),
-  // Might exist on some of the types
+  allOf: z.never().optional(),
+  anyOf: z.never().optional(),
+
+  // `type` exists on non-special types
+  type: z.never().optional(),
+
+  // might exist on any schema
   description: z.string().optional(),
   default: Primitive.optional(),
-  maxItems: z.any().optional()
+  deprecated: z.boolean().optional(),
 });
 
 const SchemaSchemaRef = BaseSchema.extend({ $ref: z.string() }).strict();
@@ -62,6 +69,7 @@ const SchemaSchemaArray = BaseSchema.extend({
   items: SchemaUnparsed.optional(),
   const: z.union([z.array(z.unknown())]).optional(),
   example: z.union([z.array(z.unknown())]).optional(),
+  maxItems: z.any().optional(),
 }).strict();
 
 const SchemaSchemaOneOf = BaseSchema.extend({
@@ -186,8 +194,7 @@ async function main() {
     throw new Error("Missing file name");
   }
 
-  const schemasDir = "src/schemas/" as const;
-  const fileNameWithExtension = `${schemasDir}/${fileName}.yaml` as const;
+  const fileNameWithExtension = `schemas/${fileName}.yaml` as const;
 
   const yamlStr = await Bun.file(fileNameWithExtension).text();
 
@@ -217,7 +224,7 @@ export default ${fileName};
 
   // console.log(tsCode);
 
-  const outFilePath = `${schemasDir}${fileName}.ts` as const;
+  const outFilePath = `src/schemas/${fileName}.ts` as const;
 
   await Bun.write(outFilePath, tsCode);
 }

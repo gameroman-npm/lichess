@@ -17,7 +17,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@lichess-org/types": "^2.0.88",
+    "@lichess-org/types": "^2.0.89",
     "tsdown": "^0.15.9",
     "typescript": "^5.9.3"
   },
