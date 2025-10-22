@@ -25,6 +25,10 @@ const BaseSchema = z.object({
 
 const SchemaSchemaRef = BaseSchema.extend({ $ref: z.string() }).strict();
 
+const SchemaSchemaNull = BaseSchema.extend({
+  type: z.literal("null"),
+}).strict();
+
 const SchemaSchemaString = BaseSchema.extend({
   type: z.literal("string"),
   const: z.union([z.string()]).optional(),
@@ -78,6 +82,7 @@ const SchemaSchemaOneOf = BaseSchema.extend({
 
 const SchemaSchema = z.union([
   SchemaSchemaRef,
+  SchemaSchemaNull,
   SchemaSchemaPrimary,
   SchemaSchemaObject,
   SchemaSchemaArray,
@@ -104,6 +109,10 @@ function convertToZod_(schema: Schema): ConvertResult {
       zodSchema: `z.union([${zodSchemas.join(", ")}])`,
       refs: Array.from(allRefs),
     };
+  }
+
+  if (schema.type === "null") {
+    return { zodSchema: "z.null()", refs: [] };
   }
 
   if (schema.const !== undefined) {
