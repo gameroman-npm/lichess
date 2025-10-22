@@ -5,6 +5,7 @@
   "author": "GameRoMan",
   "license": "MIT",
   "scripts": {
+    "test:types": "bunx tsc --noEmit",
     "build": "bunx tsdown",
     "npm:publish": "bun publish --access public"
   },
