@@ -21,8 +21,15 @@ import BroadcastMyRound from "./BroadcastMyRound";
 import BroadcastPgnPush from "./BroadcastPgnPush";
 import BroadcastPgnPushTags from "./BroadcastPgnPushTags";
 import BroadcastPlayerEntry from "./BroadcastPlayerEntry";
+import BroadcastPlayerEntryWithFideAndGames from "./BroadcastPlayerEntryWithFideAndGames";
+import BroadcastPlayerTiebreak from "./BroadcastPlayerTiebreak";
 import BroadcastPlayerWithFed from "./BroadcastPlayerWithFed";
+import BroadcastRound from "./BroadcastRound";
+import BroadcastRoundForm from "./BroadcastRoundForm";
+import BroadcastRoundFormName from "./BroadcastRoundFormName";
+import BroadcastRoundGame from "./BroadcastRoundGame";
 import BroadcastRoundInfo from "./BroadcastRoundInfo";
+import BroadcastRoundNew from "./BroadcastRoundNew";
 import BroadcastRoundStudyInfo from "./BroadcastRoundStudyInfo";
 import BroadcastTiebreakExtendedCode from "./BroadcastTiebreakExtendedCode";
 import BroadcastTour from "./BroadcastTour";
@@ -31,6 +38,7 @@ import ChallengeDeclinedEvent from "./ChallengeDeclinedEvent";
 import ChallengeEvent from "./ChallengeEvent";
 import ChallengeJson from "./ChallengeJson";
 import ChallengeStatus from "./ChallengeStatus";
+import ChallengeUser from "./ChallengeUser";
 import ChatLineEvent from "./ChatLineEvent";
 import Clock from "./Clock";
 import Count from "./Count";
@@ -45,6 +53,8 @@ import GameFinishEvent from "./GameFinishEvent";
 import GameFullEvent from "./GameFullEvent";
 import GameJson from "./GameJson";
 import GameOpening from "./GameOpening";
+import GamePlayers from "./GamePlayers";
+import GamePlayerUser from "./GamePlayerUser";
 import GameSource from "./GameSource";
 import GameStartEvent from "./GameStartEvent";
 import GameStateEvent from "./GameStateEvent";
@@ -56,6 +66,7 @@ import GameStreamGame from "./GameStreamGame";
 import GameUsers from "./GameUsers";
 import Leaderboard from "./Leaderboard";
 import LightUser from "./LightUser";
+import PatronColor from "./PatronColor";
 import Perf from "./Perf";
 import Perfs from "./Perfs";
 import PerfTop10 from "./PerfTop10";
@@ -106,8 +117,15 @@ export {
   BroadcastPgnPush,
   BroadcastPgnPushTags,
   BroadcastPlayerEntry,
+  BroadcastPlayerEntryWithFideAndGames,
+  BroadcastPlayerTiebreak,
   BroadcastPlayerWithFed,
+  BroadcastRound,
+  BroadcastRoundForm,
+  BroadcastRoundFormName,
+  BroadcastRoundGame,
   BroadcastRoundInfo,
+  BroadcastRoundNew,
   BroadcastRoundStudyInfo,
   BroadcastTiebreakExtendedCode,
   BroadcastTour,
@@ -116,6 +134,7 @@ export {
   ChallengeEvent,
   ChallengeJson,
   ChallengeStatus,
+  ChallengeUser,
   ChatLineEvent,
   Clock,
   Count,
@@ -130,6 +149,8 @@ export {
   GameFullEvent,
   GameJson,
   GameOpening,
+  GamePlayers,
+  GamePlayerUser,
   GameSource,
   GameStartEvent,
   GameStateEvent,
@@ -141,6 +162,7 @@ export {
   GameUsers,
   Leaderboard,
   LightUser,
+  PatronColor,
   Perf,
   Perfs,
   PerfTop10,

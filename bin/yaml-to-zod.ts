@@ -106,7 +106,10 @@ const SchemaSchemaOneOf = BaseSchema.extend({ oneOf: z.array(SchemaUnparsed) })
   .strict()
   .transform((s) => ({ ...s, __schema: "oneOf" as const }));
 
-const SchemaSchemaAllOf = BaseSchema.extend({ allOf: z.array(SchemaUnparsed) })
+const SchemaSchemaAllOf = BaseSchema.extend({
+  type: z.literal("object").optional(),
+  allOf: z.tuple([SchemaUnparsed, SchemaUnparsed]),
+})
   .strict()
   .transform((s) => ({ ...s, __schema: "allOf" as const }));
 
@@ -150,12 +153,11 @@ function convertToZod_(schema: Schema): ConvertResult {
       };
     }
     case "allOf": {
-      const subResults = schema.allOf.map((item) => convertToZod(item));
-      const zodSchemas = subResults.map((r) => r.zodSchema);
-      const allRefs = new Set<string>();
-      subResults.forEach((r) => r.refs.forEach((ref) => allRefs.add(ref)));
+      const leftPart = convertToZod(schema.allOf[0]);
+      const rightPart = convertToZod(schema.allOf[1]);
+      const allRefs = new Set([...leftPart.refs, ...rightPart.refs]);
       return {
-        zodSchema: `z.intersection([${zodSchemas.join(", ")}])`,
+        zodSchema: `z.intersection(${leftPart.zodSchema}, ${rightPart.zodSchema})`,
         refs: Array.from(allRefs),
       };
     }
@@ -244,7 +246,9 @@ function convertToZod_(schema: Schema): ConvertResult {
       const inner =
         entries.length === 1
           ? `{ "${entries[0]![0]}": ${entries[0]![1]} }`
-          : "{\n" + entries.map(([k, v]) => `  "${k}": ${v},`).join("\n") + "\n}";
+          : "{\n" +
+            entries.map(([k, v]) => `  "${k}": ${v},`).join("\n") +
+            "\n}";
       return { zodSchema: `z.object(${inner})`, refs: Array.from(allRefs) };
     }
     case "array": {
