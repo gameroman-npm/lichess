@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test:types": "bunx tsc --noEmit",
+    "format": "bunx biome format --write",
     "build": "bunx tsdown",
     "npm:publish": "bun publish --access public"
   },
