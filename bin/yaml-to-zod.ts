@@ -77,7 +77,7 @@ const SchemaSchemaObject = BaseSchema.extend({
   properties: z.record(z.string(), SchemaUnparsed),
   required: z.array(z.string()).optional(),
   example: z.union([z.object()]).optional(),
-  additionalProperties: z.never().optional(),
+  additionalProperties: z.literal(false).optional(),
 })
   .strict()
   .transform((s) => ({ ...s, __schema: "object" as const }));
@@ -306,6 +306,7 @@ async function processFile(filePath: string) {
   console.log({ filePath, fileName });
   const yamlStr = await Bun.file(filePath).text();
   const schema = Bun.YAML.parse(yamlStr);
+  // console.log(schema);
   const { zodSchema, refs: uniqueRefs } = convertToZod(schema);
 
   uniqueRefs.sort();

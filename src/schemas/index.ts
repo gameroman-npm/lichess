@@ -35,6 +35,7 @@ import BroadcastTiebreakExtendedCode from "./BroadcastTiebreakExtendedCode";
 import BroadcastTour from "./BroadcastTour";
 import ChallengeCanceledEvent from "./ChallengeCanceledEvent";
 import ChallengeDeclinedEvent from "./ChallengeDeclinedEvent";
+import ChallengeDeclinedJson from "./ChallengeDeclinedJson";
 import ChallengeEvent from "./ChallengeEvent";
 import ChallengeJson from "./ChallengeJson";
 import ChallengeStatus from "./ChallengeStatus";
@@ -52,6 +53,7 @@ import GameEventPlayer from "./GameEventPlayer";
 import GameFinishEvent from "./GameFinishEvent";
 import GameFullEvent from "./GameFullEvent";
 import GameJson from "./GameJson";
+import GameMoveAnalysis from "./GameMoveAnalysis";
 import GameOpening from "./GameOpening";
 import GamePlayers from "./GamePlayers";
 import GamePlayerUser from "./GamePlayerUser";
@@ -63,7 +65,6 @@ import GameStatusId from "./GameStatusId";
 import GameStatusName from "./GameStatusName";
 import GameStream from "./GameStream";
 import GameStreamGame from "./GameStreamGame";
-import GameUsers from "./GameUsers";
 import Leaderboard from "./Leaderboard";
 import LightUser from "./LightUser";
 import PatronColor from "./PatronColor";
@@ -80,6 +81,7 @@ import SwissStatus from "./SwissStatus";
 import Team from "./Team";
 import TeamRequest from "./TeamRequest";
 import TeamRequestWithUser from "./TeamRequestWithUser";
+import TimeControl from "./TimeControl";
 import Title from "./Title";
 import Top10s from "./Top10s";
 import TopUser from "./TopUser";
@@ -131,6 +133,7 @@ export {
   BroadcastTour,
   ChallengeCanceledEvent,
   ChallengeDeclinedEvent,
+  ChallengeDeclinedJson,
   ChallengeEvent,
   ChallengeJson,
   ChallengeStatus,
@@ -148,6 +151,7 @@ export {
   GameFinishEvent,
   GameFullEvent,
   GameJson,
+  GameMoveAnalysis,
   GameOpening,
   GamePlayers,
   GamePlayerUser,
@@ -159,7 +163,6 @@ export {
   GameStatusName,
   GameStream,
   GameStreamGame,
-  GameUsers,
   Leaderboard,
   LightUser,
   PatronColor,
@@ -176,6 +179,7 @@ export {
   Team,
   TeamRequest,
   TeamRequestWithUser,
+  TimeControl,
   Title,
   Top10s,
   TopUser,

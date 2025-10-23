@@ -1,8 +1,7 @@
 import * as z from "zod";
 
+import BroadcastCustomPoints from "./BroadcastCustomPoints";
 import BroadcastRoundFormName from "./BroadcastRoundFormName";
-import draw from "./draw";
-import win from "./win";
 
 const BroadcastRoundForm = z.intersection(
   z.union([
@@ -34,10 +33,10 @@ const BroadcastRoundForm = z.intersection(
     delay: z.int().min(0).max(3600).optional(),
     status: z.literal(["new", "started", "finished"]).optional(),
     rated: z.boolean().optional(),
-    "customScoring.white.win": win.optional(),
-    "customScoring.white.draw": draw.optional(),
-    "customScoring.black.win": win.optional(),
-    "customScoring.black.draw": draw.optional(),
+    "customScoring.white.win": BroadcastCustomPoints.optional(),
+    "customScoring.white.draw": BroadcastCustomPoints.optional(),
+    "customScoring.black.win": BroadcastCustomPoints.optional(),
+    "customScoring.black.draw": BroadcastCustomPoints.optional(),
     period: z.int().min(2).max(60).optional(),
   })
 );
