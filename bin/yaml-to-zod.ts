@@ -35,6 +35,12 @@ const SchemaSchemaString = BaseSchema.extend({
   .strict()
   .transform((s) => ({ ...s, __schema: "string" as const }));
 
+const SchemaSchemaStringNullable = BaseSchema.extend({
+  type: z.tuple([z.literal("string"), z.literal("null")]),
+})
+  .strict()
+  .transform((s) => ({ ...s, __schema: "string:nullable" as const }));
+
 const SchemaSchemaInteger = BaseSchema.extend({
   type: z.literal("integer"),
   const: z.int().optional(),
@@ -46,6 +52,16 @@ const SchemaSchemaInteger = BaseSchema.extend({
 })
   .strict()
   .transform((s) => ({ ...s, __schema: "integer" as const }));
+
+const SchemaSchemaIntegerNullable = BaseSchema.extend({
+  type: z.union([
+    z.tuple([z.literal("integer"), z.literal("null")]),
+    z.tuple([z.literal("null"), z.literal("integer")]),
+  ]),
+  example: z.int().optional(),
+})
+  .strict()
+  .transform((s) => ({ ...s, __schema: "integer:nullable" as const }));
 
 const SchemaSchemaNumber = BaseSchema.extend({
   type: z.literal("number"),
@@ -64,7 +80,7 @@ const SchemaSchemaBoolean = BaseSchema.extend({
   .strict()
   .transform((s) => ({ ...s, __schema: "boolean" as const }));
 
-const SchemaSchemaPrimary = z.discriminatedUnion("type", [
+const SchemaSchemaPrimitive = z.discriminatedUnion("type", [
   SchemaSchemaString,
   SchemaSchemaInteger,
   SchemaSchemaNumber,
@@ -72,18 +88,18 @@ const SchemaSchemaPrimary = z.discriminatedUnion("type", [
 ]);
 
 const SchemaSchemaObject = BaseSchema.extend({
-  type: z.literal("object"),
+  type: z.literal("object").optional(),
   title: z.string().optional(),
   properties: z.record(z.string(), SchemaUnparsed),
   required: z.array(z.string()).optional(),
-  example: z.union([z.object()]).optional(),
+  example: z.object().optional(),
   additionalProperties: z.literal(false).optional(),
 })
   .strict()
   .transform((s) => ({ ...s, __schema: "object" as const }));
 
 const SchemaSchemaObjectAdditionalProperties = BaseSchema.extend({
-  type: z.literal("object"),
+  type: z.literal("object").optional(),
   additionalProperties: SchemaUnparsed,
 })
   .strict()
@@ -95,7 +111,7 @@ const SchemaSchemaObjectAdditionalProperties = BaseSchema.extend({
 const SchemaSchemaArray = BaseSchema.extend({
   type: z.literal("array"),
   items: SchemaUnparsed.optional(),
-  example: z.union([z.array(z.unknown())]).optional(),
+  example: z.array(z.unknown()).optional(),
   minItems: z.int().optional(),
   maxItems: z.int().optional(),
 })
@@ -116,7 +132,9 @@ const SchemaSchemaAllOf = BaseSchema.extend({
 const SchemaSchema = z.union([
   SchemaSchemaRef,
   SchemaSchemaNull,
-  SchemaSchemaPrimary,
+  SchemaSchemaPrimitive,
+  SchemaSchemaIntegerNullable,
+  SchemaSchemaStringNullable,
   SchemaSchemaObject,
   SchemaSchemaObjectAdditionalProperties,
   SchemaSchemaArray,
@@ -181,6 +199,9 @@ function convertToZod_(schema: Schema): ConvertResult {
       }
       return { zodSchema: schemaStr, refs: [] };
     }
+    case "string:nullable": {
+      return { zodSchema: "z.string().nullable()", refs: [] };
+    }
     case "integer": {
       if (schema.enum) {
         const literals = schema.enum.join(", ");
@@ -205,6 +226,9 @@ function convertToZod_(schema: Schema): ConvertResult {
         schemaStr += `.max(${schema.maximum})`;
       }
       return { zodSchema: schemaStr, refs: [] };
+    }
+    case "integer:nullable": {
+      return { zodSchema: "z.int().nullable()", refs: [] };
     }
     case "number": {
       let schemaStr = "z.number()";

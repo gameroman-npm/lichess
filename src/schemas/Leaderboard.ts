@@ -2,9 +2,7 @@ import * as z from "zod";
 
 import TopUser from "./TopUser";
 
-const Leaderboard = z.object({
-  users: z.array(TopUser),
-});
+const Leaderboard = z.object({ users: z.array(TopUser) });
 
 type Leaderboard = z.infer<typeof Leaderboard>;
 

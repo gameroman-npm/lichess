@@ -32,18 +32,33 @@ import BroadcastRoundInfo from "./BroadcastRoundInfo";
 import BroadcastRoundNew from "./BroadcastRoundNew";
 import BroadcastRoundStudyInfo from "./BroadcastRoundStudyInfo";
 import BroadcastTiebreakExtendedCode from "./BroadcastTiebreakExtendedCode";
+import BroadcastTop from "./BroadcastTop";
 import BroadcastTour from "./BroadcastTour";
+import BroadcastWithLastRound from "./BroadcastWithLastRound";
+import BroadcastWithRounds from "./BroadcastWithRounds";
+import BulkPairing from "./BulkPairing";
 import ChallengeCanceledEvent from "./ChallengeCanceledEvent";
+import ChallengeColor from "./ChallengeColor";
 import ChallengeDeclinedEvent from "./ChallengeDeclinedEvent";
 import ChallengeDeclinedJson from "./ChallengeDeclinedJson";
 import ChallengeEvent from "./ChallengeEvent";
 import ChallengeJson from "./ChallengeJson";
+import ChallengeOpenJson from "./ChallengeOpenJson";
 import ChallengeStatus from "./ChallengeStatus";
 import ChallengeUser from "./ChallengeUser";
 import ChatLineEvent from "./ChatLineEvent";
 import Clock from "./Clock";
+import CloudEval from "./CloudEval";
 import Count from "./Count";
+import Crosstable from "./Crosstable";
+import Error from "./Error";
+import ExternalEngine from "./ExternalEngine";
+import ExternalEngineRegistration from "./ExternalEngineRegistration";
+import ExternalEngineWork from "./ExternalEngineWork";
+import ExternalEngineWorkCommon from "./ExternalEngineWorkCommon";
+import FIDEPlayer from "./FIDEPlayer";
 import Flair from "./Flair";
+import FromPositionFEN from "./FromPositionFEN";
 import GameChat from "./GameChat";
 import GameColor from "./GameColor";
 import GameCompat from "./GameCompat";
@@ -55,6 +70,7 @@ import GameFullEvent from "./GameFullEvent";
 import GameJson from "./GameJson";
 import GameMoveAnalysis from "./GameMoveAnalysis";
 import GameOpening from "./GameOpening";
+import GamePgn from "./GamePgn";
 import GamePlayers from "./GamePlayers";
 import GamePlayerUser from "./GamePlayerUser";
 import GameSource from "./GameSource";
@@ -67,6 +83,8 @@ import GameStream from "./GameStream";
 import GameStreamGame from "./GameStreamGame";
 import Leaderboard from "./Leaderboard";
 import LightUser from "./LightUser";
+import LightUserOnline from "./LightUserOnline";
+import Move from "./Move";
 import PatronColor from "./PatronColor";
 import Perf from "./Perf";
 import Perfs from "./Perfs";
@@ -130,18 +148,33 @@ export {
   BroadcastRoundNew,
   BroadcastRoundStudyInfo,
   BroadcastTiebreakExtendedCode,
+  BroadcastTop,
   BroadcastTour,
+  BroadcastWithLastRound,
+  BroadcastWithRounds,
+  BulkPairing,
   ChallengeCanceledEvent,
+  ChallengeColor,
   ChallengeDeclinedEvent,
   ChallengeDeclinedJson,
   ChallengeEvent,
   ChallengeJson,
+  ChallengeOpenJson,
   ChallengeStatus,
   ChallengeUser,
   ChatLineEvent,
   Clock,
+  CloudEval,
   Count,
+  Crosstable,
+  Error,
+  ExternalEngine,
+  ExternalEngineRegistration,
+  ExternalEngineWork,
+  ExternalEngineWorkCommon,
+  FIDEPlayer,
   Flair,
+  FromPositionFEN,
   GameChat,
   GameColor,
   GameCompat,
@@ -153,6 +186,7 @@ export {
   GameJson,
   GameMoveAnalysis,
   GameOpening,
+  GamePgn,
   GamePlayers,
   GamePlayerUser,
   GameSource,
@@ -165,6 +199,8 @@ export {
   GameStreamGame,
   Leaderboard,
   LightUser,
+  LightUserOnline,
+  Move,
   PatronColor,
   Perf,
   Perfs,

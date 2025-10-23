@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const Flair = z.string().brand("Flair");
+const Flair = z.string();
 
 type Flair = z.infer<typeof Flair>;
 

@@ -2,8 +2,8 @@ import * as z from "zod";
 
 const GameChat = z.array(
   z.object({
-    text: z.string().optional(),
-    user: z.string().optional(),
+    text: z.string(),
+    user: z.string(),
   })
 );
 

@@ -7,7 +7,7 @@ const BroadcastTour = z.object({
   name: z.string(),
   slug: z.string(),
   createdAt: z.int(),
-  dates: z.array(z.int()).max(2).optional(),
+  dates: z.array(z.int()).min(1).max(2).optional(),
   info: z
     .object({
       website: z.url().optional(),
