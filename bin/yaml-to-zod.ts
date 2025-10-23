@@ -17,6 +17,9 @@ const BaseSchema = z.object({
   // `type` exists on non-special types
   type: z.never().optional(),
 
+  // `const` usually only exists on primitive types
+  const: z.never().optional(),
+
   // might exist on any schema
   description: z.string().optional(),
   default: Primitive.optional(),
@@ -33,7 +36,7 @@ const SchemaSchemaString = BaseSchema.extend({
   type: z.literal("string"),
   const: z.union([z.string()]).optional(),
   example: z.union([z.string()]).optional(),
-  format: z.literal("uri").optional(),
+  format: z.literal(["uri", "int64"]).optional(),
   enum: z.array(z.string()).optional(),
   minLength: z.number().optional(),
   maxLength: z.number().optional(),
@@ -47,6 +50,12 @@ const SchemaSchemaInteger = BaseSchema.extend({
   enum: z.array(z.int()).optional(),
 }).strict();
 
+const SchemaSchemaNumber = BaseSchema.extend({
+  type: z.literal("number"),
+  minimum: z.int(),
+  maximum: z.int(),
+}).strict();
+
 const SchemaSchemaBoolean = BaseSchema.extend({
   type: z.literal("boolean"),
   const: z.union([z.boolean()]).optional(),
@@ -56,6 +65,7 @@ const SchemaSchemaBoolean = BaseSchema.extend({
 const SchemaSchemaPrimary = z.discriminatedUnion("type", [
   SchemaSchemaString,
   SchemaSchemaInteger,
+  SchemaSchemaNumber,
   SchemaSchemaBoolean,
 ]);
 
@@ -64,16 +74,21 @@ const SchemaSchemaObject = BaseSchema.extend({
   title: z.string().optional(),
   properties: z.record(z.string(), SchemaUnparsed),
   required: z.array(z.string()).optional(),
-  const: z.union([z.object()]).optional(),
   example: z.union([z.object()]).optional(),
+  additionalProperties: z.never().optional(),
+}).strict();
+
+const SchemaSchemaObjectAdditionalProperties = BaseSchema.extend({
+  type: z.literal("object"),
+  additionalProperties: SchemaUnparsed,
 }).strict();
 
 const SchemaSchemaArray = BaseSchema.extend({
   type: z.literal("array"),
   items: SchemaUnparsed.optional(),
-  const: z.union([z.array(z.unknown())]).optional(),
   example: z.union([z.array(z.unknown())]).optional(),
-  maxItems: z.any().optional(),
+  minItems: z.int().optional(),
+  maxItems: z.int().optional(),
 }).strict();
 
 const SchemaSchemaOneOf = BaseSchema.extend({
@@ -85,6 +100,7 @@ const SchemaSchema = z.union([
   SchemaSchemaNull,
   SchemaSchemaPrimary,
   SchemaSchemaObject,
+  SchemaSchemaObjectAdditionalProperties,
   SchemaSchemaArray,
   SchemaSchemaOneOf,
 ]);
@@ -149,10 +165,28 @@ function convertToZod_(schema: Schema): ConvertResult {
         }
         return { zodSchema: "z.int()", refs: [] };
       }
+      case "number": {
+        if (schema.minimum === undefined || schema.maximum === undefined) {
+          throw new Error(`Invalid number schema: ${JSON.stringify(schema)}`);
+        }
+        return {
+          zodSchema: `z.number().min(${schema.minimum}).max(${schema.maximum})`,
+          refs: [],
+        };
+      }
       case "boolean": {
         return { zodSchema: "z.boolean()", refs: [] };
       }
       case "object": {
+        if (schema.additionalProperties !== undefined) {
+          const { zodSchema: valueSchemaStr, refs } = convertToZod(
+            schema.additionalProperties
+          );
+          return {
+            zodSchema: `z.record(z.string(), ${valueSchemaStr})`,
+            refs,
+          };
+        }
         const props = schema.properties || {};
         const required = new Set(schema.required || []);
         const zodProps: Record<string, string> = {};
@@ -166,12 +200,13 @@ function convertToZod_(schema: Schema): ConvertResult {
           }
           zodProps[k] = propStr;
         }
+        const entries = Object.entries(zodProps);
         const inner =
-          "{\n" +
-          Object.entries(zodProps)
-            .map(([k, v]) => `  ${k}: ${v},`)
-            .join("\n") +
-          "\n}";
+          entries.length === 1
+            ? `{ ${entries[0]![0]}: ${entries[0]![1]} }`
+            : "{\n" +
+              entries.map(([k, v]) => `  ${k}: ${v},`).join("\n") +
+              "\n}";
         return { zodSchema: `z.object(${inner})`, refs: Array.from(allRefs) };
       }
       case "array": {
@@ -180,7 +215,35 @@ function convertToZod_(schema: Schema): ConvertResult {
           return { zodSchema: "z.array(z.unknown())", refs: [] };
         }
         const { zodSchema: itemSchema, refs: itemRefs } = convertToZod(items);
-        return { zodSchema: `z.array(${itemSchema})`, refs: itemRefs } as const;
+        let zodSchemaStr: string;
+        if (
+          schema.minItems !== undefined &&
+          schema.maxItems !== undefined &&
+          schema.minItems === schema.maxItems &&
+          schema.minItems <= 10
+        ) {
+          const n = schema.minItems;
+          const tupleItems = Array(n).fill(itemSchema).join(", ");
+          zodSchemaStr = `z.tuple([${tupleItems}])`;
+        } else {
+          let inner = `z.array(${itemSchema})`;
+          if (
+            schema.minItems !== undefined &&
+            schema.maxItems !== undefined &&
+            schema.minItems === schema.maxItems
+          ) {
+            inner += `.length(${schema.minItems})`;
+          } else {
+            if (schema.minItems !== undefined) {
+              inner += `.min(${schema.minItems})`;
+            }
+            if (schema.maxItems !== undefined) {
+              inner += `.max(${schema.maxItems})`;
+            }
+          }
+          zodSchemaStr = inner;
+        }
+        return { zodSchema: zodSchemaStr, refs: itemRefs } as const;
       }
     }
   }
@@ -196,21 +259,12 @@ function convertToZod(schema: unknown | SchemaUnparsed): ConvertResult {
   return convertToZod_(SchemaSchema.parse(schema));
 }
 
-async function main() {
-  const fileName = Bun.argv[2];
-
-  if (!fileName) {
-    throw new Error("Missing file name");
-  }
-
-  const fileNameWithExtension = `schemas/${fileName}.yaml` as const;
-
-  const yamlStr = await Bun.file(fileNameWithExtension).text();
-
+async function processFile(filePath: string) {
+  filePath = filePath.replaceAll("\\", "/");
+  const fileName = filePath.split("/").pop()!.replace(".yaml", "");
+  console.log({ filePath, fileName });
+  const yamlStr = await Bun.file(filePath).text();
   const schema = Bun.YAML.parse(yamlStr);
-
-  // console.log(schema);
-
   const { zodSchema, refs: uniqueRefs } = convertToZod(schema);
 
   uniqueRefs.sort();
@@ -231,11 +285,25 @@ export { ${fileName} };
 export default ${fileName};
 ` as const;
 
-  // console.log(tsCode);
-
   const outFilePath = `src/schemas/${fileName}.ts` as const;
 
   await Bun.write(outFilePath, tsCode);
+}
+
+async function main() {
+  const fileName = Bun.argv[2];
+
+  if (fileName) {
+    const fileNameWithExtension = `schemas/${fileName}.yaml` as const;
+    await processFile(fileNameWithExtension);
+  } else {
+    const glob = new Bun.Glob("schemas/*.{yaml}");
+    const yamlFiles = await Array.fromAsync(glob.scan());
+    const filesToProcess = yamlFiles.filter((f) => !f.includes("_index.yaml"));
+    for (const fullPath of filesToProcess) {
+      await processFile(fullPath);
+    }
+  }
 }
 
 await main();

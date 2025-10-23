@@ -7,9 +7,7 @@ const BroadcastCustomPointsPerColor = z.object({
   draw: BroadcastCustomPoints,
 });
 
-type BroadcastCustomPointsPerColor = z.infer<
-  typeof BroadcastCustomPointsPerColor
->;
+type BroadcastCustomPointsPerColor = z.infer<typeof BroadcastCustomPointsPerColor>;
 
 export { BroadcastCustomPointsPerColor };
 export default BroadcastCustomPointsPerColor;

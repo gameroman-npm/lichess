@@ -5,7 +5,6 @@ properties:
     example: Hernandez Riera, Jose
   title:
     $ref: "./Title.yaml"
-    example: FM
   rating:
     type: integer
     example: 2149
@@ -17,3 +16,6 @@ properties:
   fed:
     type: string
     example: CHI
+
+required:
+  - name
