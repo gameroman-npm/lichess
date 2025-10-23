@@ -3,8 +3,8 @@ import * as z from "zod";
 import GameColor from "./GameColor";
 import GameMoveAnalysis from "./GameMoveAnalysis";
 import GameOpening from "./GameOpening";
+import GamePlayers from "./GamePlayers";
 import GameStatusName from "./GameStatusName";
-import GameUsers from "./GameUsers";
 import Speed from "./Speed";
 import VariantKey from "./VariantKey";
 
@@ -18,7 +18,7 @@ const GameJson = z.object({
   lastMoveAt: z.int(),
   status: GameStatusName,
   source: z.string().optional(),
-  players: GameUsers,
+  players: GamePlayers,
   initialFen: z.string().optional(),
   winner: GameColor.optional(),
   opening: GameOpening.optional(),
