@@ -25,8 +25,8 @@ const SchemaSchemaNull = BaseSchema.extend({ type: z.literal("null") })
 
 const SchemaSchemaString = BaseSchema.extend({
   type: z.literal("string"),
-  const: z.union([z.string()]).optional(),
-  example: z.union([z.string()]).optional(),
+  const: z.string().optional(),
+  example: z.string().optional(),
   format: z.literal(["uri", "int64"]).optional(),
   enum: z.array(z.string()).optional(),
   minLength: z.number().optional(),
@@ -37,16 +37,19 @@ const SchemaSchemaString = BaseSchema.extend({
 
 const SchemaSchemaInteger = BaseSchema.extend({
   type: z.literal("integer"),
-  const: z.union([z.number()]).optional(),
-  example: z.union([z.number()]).optional(),
+  const: z.int().optional(),
+  example: z.int().optional(),
   format: z.literal("int64").optional(),
   enum: z.array(z.int()).optional(),
+  minimum: z.number().optional(),
+  maximum: z.number().optional(),
 })
   .strict()
   .transform((s) => ({ ...s, __schema: "integer" as const }));
 
 const SchemaSchemaNumber = BaseSchema.extend({
   type: z.literal("number"),
+  example: z.number().optional(),
   minimum: z.number().optional(),
   maximum: z.number().optional(),
 })
@@ -55,8 +58,8 @@ const SchemaSchemaNumber = BaseSchema.extend({
 
 const SchemaSchemaBoolean = BaseSchema.extend({
   type: z.literal("boolean"),
-  const: z.union([z.boolean()]).optional(),
-  example: z.union([z.boolean()]).optional(),
+  const: z.boolean().optional(),
+  example: z.boolean().optional(),
 })
   .strict()
   .transform((s) => ({ ...s, __schema: "boolean" as const }));
@@ -181,7 +184,25 @@ function convertToZod_(schema: Schema): ConvertResult {
         const literals = schema.enum.join(", ");
         return { zodSchema: `z.literal([${literals}])`, refs: [] };
       }
-      return { zodSchema: "z.int()", refs: [] };
+      let schemaStr = "z.int()";
+      if (schema.minimum !== undefined && schema.maximum !== undefined) {
+        const diff = schema.maximum - schema.minimum;
+        if (diff <= 10) {
+          const values: number[] = [];
+          for (let i = schema.minimum; i <= schema.maximum; i++) {
+            values.push(i);
+          }
+          const literals = values.map((v) => `z.literal(${v})`).join(", ");
+          return { zodSchema: `z.union([${literals}])`, refs: [] };
+        }
+      }
+      if (schema.minimum !== undefined) {
+        schemaStr += `.min(${schema.minimum})`;
+      }
+      if (schema.maximum !== undefined) {
+        schemaStr += `.max(${schema.maximum})`;
+      }
+      return { zodSchema: schemaStr, refs: [] };
     }
     case "number": {
       let schemaStr = "z.number()";
@@ -222,8 +243,8 @@ function convertToZod_(schema: Schema): ConvertResult {
       const entries = Object.entries(zodProps);
       const inner =
         entries.length === 1
-          ? `{ ${entries[0]![0]}: ${entries[0]![1]} }`
-          : "{\n" + entries.map(([k, v]) => `  ${k}: ${v},`).join("\n") + "\n}";
+          ? `{ "${entries[0]![0]}": ${entries[0]![1]} }`
+          : "{\n" + entries.map(([k, v]) => `  "${k}": ${v},`).join("\n") + "\n}";
       return { zodSchema: `z.object(${inner})`, refs: Array.from(allRefs) };
     }
     case "array": {

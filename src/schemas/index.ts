@@ -20,6 +20,7 @@ import BroadcastGroupTour from "./BroadcastGroupTour";
 import BroadcastMyRound from "./BroadcastMyRound";
 import BroadcastPgnPush from "./BroadcastPgnPush";
 import BroadcastPgnPushTags from "./BroadcastPgnPushTags";
+import BroadcastPlayerEntry from "./BroadcastPlayerEntry";
 import BroadcastPlayerWithFed from "./BroadcastPlayerWithFed";
 import BroadcastRoundInfo from "./BroadcastRoundInfo";
 import BroadcastRoundStudyInfo from "./BroadcastRoundStudyInfo";
@@ -104,6 +105,7 @@ export {
   BroadcastMyRound,
   BroadcastPgnPush,
   BroadcastPgnPushTags,
+  BroadcastPlayerEntry,
   BroadcastPlayerWithFed,
   BroadcastRoundInfo,
   BroadcastRoundStudyInfo,
