@@ -15,7 +15,10 @@ const BaseSchema = z.object({
   deprecated: z.boolean().optional(),
 });
 
-const StringYamlRef = z.string().brand("StringYamlRef");
+const StringYamlRef = z
+  .string()
+  .refine((str) => str.endsWith(".yaml"))
+  .brand("StringYamlRef");
 
 const SchemaSchemaRef = BaseSchema.extend({ $ref: StringYamlRef })
   .strict()
@@ -131,6 +134,17 @@ const SchemaSchemaAllOf = BaseSchema.extend({
   .strict()
   .transform((s) => ({ ...s, __schema: "allOf" as const }));
 
+const SchemaSchemaAnyOf = BaseSchema.extend({
+  type: z.literal("object").optional(),
+  anyOf: z.array(SchemaSchemaRef),
+  discriminator: z.object({
+    propertyName: z.string(),
+    mapping: z.record(z.string(), StringYamlRef),
+  }),
+})
+  .strict()
+  .transform((s) => ({ ...s, __schema: "anyOf" as const }));
+
 const SchemaSchema = z.union([
   SchemaSchemaRef,
   SchemaSchemaNull,
@@ -142,6 +156,7 @@ const SchemaSchema = z.union([
   SchemaSchemaArray,
   SchemaSchemaOneOf,
   SchemaSchemaAllOf,
+  SchemaSchemaAnyOf,
 ]);
 
 type Schema = z.infer<typeof SchemaSchema>;
@@ -178,6 +193,21 @@ function convertToZod_(schema: Schema): ConvertResult {
       const allRefs = new Set([...leftPart.refs, ...rightPart.refs]);
       return {
         zodSchema: `z.intersection(${leftPart.zodSchema}, ${rightPart.zodSchema})`,
+        refs: Array.from(allRefs),
+      };
+    }
+    case "anyOf": {
+      const refNames: string[] = [];
+      const allRefs = new Set<string>();
+      for (const [_, refYaml] of Object.entries(schema.discriminator.mapping)) {
+        const name = refYaml.split("/").pop()!.replace(".yaml", "");
+        refNames.push(name);
+        allRefs.add(name);
+      }
+      return {
+        zodSchema: `z.discriminatedUnion("${
+          schema.discriminator.propertyName
+        }", [${refNames.join(", ")}])`,
         refs: Array.from(allRefs),
       };
     }

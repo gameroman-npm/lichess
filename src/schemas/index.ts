@@ -125,19 +125,50 @@ import Simul from "./Simul";
 import Speed from "./Speed";
 import StudyImportPgnChapters from "./StudyImportPgnChapters";
 import StudyMetadata from "./StudyMetadata";
+import StudyPgn from "./StudyPgn";
+import SwissFromPositionFEN from "./SwissFromPositionFEN";
 import SwissStatus from "./SwissStatus";
+import SwissTournament from "./SwissTournament";
+import SwissUnauthorisedEdit from "./SwissUnauthorisedEdit";
+import TablebaseJson from "./TablebaseJson";
+import TablebaseMove from "./TablebaseMove";
 import Team from "./Team";
+import TeamPaginatorJson from "./TeamPaginatorJson";
 import TeamRequest from "./TeamRequest";
 import TeamRequestWithUser from "./TeamRequestWithUser";
 import TimeControl from "./TimeControl";
+import Timeline from "./Timeline";
+import TimelineEntryBlogPost from "./TimelineEntryBlogPost";
+import TimelineEntryFollow from "./TimelineEntryFollow";
+import TimelineEntryForumPost from "./TimelineEntryForumPost";
+import TimelineEntryGameEnd from "./TimelineEntryGameEnd";
+import TimelineEntryPlanRenew from "./TimelineEntryPlanRenew";
+import TimelineEntryPlanStart from "./TimelineEntryPlanStart";
+import TimelineEntrySimul from "./TimelineEntrySimul";
+import TimelineEntryStreamStart from "./TimelineEntryStreamStart";
+import TimelineEntryStudyLike from "./TimelineEntryStudyLike";
+import TimelineEntryTeamCreate from "./TimelineEntryTeamCreate";
+import TimelineEntryTeamJoin from "./TimelineEntryTeamJoin";
+import TimelineEntryTourJoin from "./TimelineEntryTourJoin";
+import TimelineEntryUblogPost from "./TimelineEntryUblogPost";
+import TimelineEntryUblogPostLike from "./TimelineEntryUblogPostLike";
 import Title from "./Title";
 import Top10s from "./Top10s";
 import TopUser from "./TopUser";
+import TvFeed from "./TvFeed";
+import TvFeedFeatured from "./TvFeedFeatured";
 import TvFeedFen from "./TvFeedFen";
+import TvGame from "./TvGame";
 import UciVariant from "./UciVariant";
 import User from "./User";
+import UserActivity from "./UserActivity";
+import UserActivityCorrespondenceGame from "./UserActivityCorrespondenceGame";
+import UserActivityFollowList from "./UserActivityFollowList";
+import UserActivityScore from "./UserActivityScore";
+import UserExtended from "./UserExtended";
 import UserNote from "./UserNote";
 import UserPreferences from "./UserPreferences";
+import UserStreamer from "./UserStreamer";
 import Variant from "./Variant";
 import VariantKey from "./VariantKey";
 import Verdict from "./Verdict";
@@ -271,19 +302,50 @@ export {
   Speed,
   StudyImportPgnChapters,
   StudyMetadata,
+  StudyPgn,
+  SwissFromPositionFEN,
   SwissStatus,
+  SwissTournament,
+  SwissUnauthorisedEdit,
+  TablebaseJson,
+  TablebaseMove,
   Team,
+  TeamPaginatorJson,
   TeamRequest,
   TeamRequestWithUser,
   TimeControl,
+  Timeline,
+  TimelineEntryBlogPost,
+  TimelineEntryFollow,
+  TimelineEntryForumPost,
+  TimelineEntryGameEnd,
+  TimelineEntryPlanRenew,
+  TimelineEntryPlanStart,
+  TimelineEntrySimul,
+  TimelineEntryStreamStart,
+  TimelineEntryStudyLike,
+  TimelineEntryTeamCreate,
+  TimelineEntryTeamJoin,
+  TimelineEntryTourJoin,
+  TimelineEntryUblogPost,
+  TimelineEntryUblogPostLike,
   Title,
   Top10s,
   TopUser,
+  TvFeed,
+  TvFeedFeatured,
   TvFeedFen,
+  TvGame,
   UciVariant,
   User,
+  UserActivity,
+  UserActivityCorrespondenceGame,
+  UserActivityFollowList,
+  UserActivityScore,
+  UserExtended,
   UserNote,
   UserPreferences,
+  UserStreamer,
   Variant,
   VariantKey,
   Verdict,
