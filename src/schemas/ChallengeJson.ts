@@ -21,11 +21,12 @@ const ChallengeJson = z.object({
   color: ChallengeColor,
   finalColor: GameColor.optional(),
   perf: z.object({
-    icon: z.string().optional(),
-    name: z.string().optional(),
+    icon: z.string(),
+    name: z.string(),
   }),
   direction: z.literal(["in", "out"]).optional(),
   initialFen: z.string().optional(),
+  rematchOf: z.string().optional(),
 });
 
 type ChallengeJson = z.infer<typeof ChallengeJson>;

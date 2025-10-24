@@ -85,6 +85,20 @@ import Leaderboard from "./Leaderboard";
 import LightUser from "./LightUser";
 import LightUserOnline from "./LightUserOnline";
 import Move from "./Move";
+import MoveStream from "./MoveStream";
+import MoveStreamEntry from "./MoveStreamEntry";
+import NotFound from "./NotFound";
+import OAuthError from "./OAuthError";
+import Ok from "./Ok";
+import OpeningExplorerGamePlayer from "./OpeningExplorerGamePlayer";
+import OpeningExplorerLichess from "./OpeningExplorerLichess";
+import OpeningExplorerLichessGame from "./OpeningExplorerLichessGame";
+import OpeningExplorerMasters from "./OpeningExplorerMasters";
+import OpeningExplorerMastersGame from "./OpeningExplorerMastersGame";
+import OpeningExplorerOpening from "./OpeningExplorerOpening";
+import OpeningExplorerPlayer from "./OpeningExplorerPlayer";
+import OpeningExplorerPlayerGame from "./OpeningExplorerPlayerGame";
+import OpponentGoneEvent from "./OpponentGoneEvent";
 import PatronColor from "./PatronColor";
 import Perf from "./Perf";
 import Perfs from "./Perfs";
@@ -201,6 +215,20 @@ export {
   LightUser,
   LightUserOnline,
   Move,
+  MoveStream,
+  MoveStreamEntry,
+  NotFound,
+  OAuthError,
+  Ok,
+  OpeningExplorerGamePlayer,
+  OpeningExplorerLichess,
+  OpeningExplorerLichessGame,
+  OpeningExplorerMasters,
+  OpeningExplorerMastersGame,
+  OpeningExplorerOpening,
+  OpeningExplorerPlayer,
+  OpeningExplorerPlayerGame,
+  OpponentGoneEvent,
   PatronColor,
   Perf,
   Perfs,
