@@ -1,0 +1,10 @@
+type: object
+properties:
+  runs:
+    type: integer
+  score:
+    type: integer
+
+required:
+  - runs
+  - score

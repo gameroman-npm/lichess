@@ -1,0 +1,29 @@
+type: object
+
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  description:
+    type: string
+  flair:
+    $ref: "./Flair.yaml"
+  leader:
+    $ref: "./LightUser.yaml"
+  leaders:
+    type: array
+    items:
+      $ref: "./LightUser.yaml"
+  nbMembers:
+    type: integer
+  open:
+    type: boolean
+  joined:
+    type: boolean
+  requested:
+    type: boolean
+
+required:
+  - id
+  - name

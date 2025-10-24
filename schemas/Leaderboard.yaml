@@ -1,0 +1,9 @@
+type: object
+properties:
+  users:
+    type: array
+    items:
+      $ref: "./TopUser.yaml"
+
+required:
+  - users

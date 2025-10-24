@@ -1,0 +1,17 @@
+type: object
+
+properties:
+  user:
+    $ref: "./LightUser.yaml"
+  rating:
+    type: integer
+  gameId:
+    type: string
+  color:
+    $ref: "./GameColor.yaml"
+
+required:
+  - user
+  - rating
+  - gameId
+  - color

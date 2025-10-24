@@ -1,0 +1,11 @@
+type: object
+
+properties:
+  request:
+    $ref: "./TeamRequest.yaml"
+  user:
+    $ref: "./User.yaml"
+
+required:
+  - request
+  - user

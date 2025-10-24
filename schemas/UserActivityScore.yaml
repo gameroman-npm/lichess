@@ -1,0 +1,25 @@
+type: object
+
+properties:
+  win:
+    type: integer
+  loss:
+    type: integer
+  draw:
+    type: integer
+  rp:
+    type: object
+    properties:
+      before:
+        type: integer
+      after:
+        type: integer
+    required:
+      - before
+      - after
+
+required:
+  - win
+  - loss
+  - draw
+  - rp

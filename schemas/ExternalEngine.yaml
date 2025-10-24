@@ -1,0 +1,52 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Unique engine registration ID.
+  name:
+    type: string
+    description: Display name of the engine.
+    minLength: 3
+    maxLength: 200
+  clientSecret:
+    type: string
+    description: |
+      A secret token that can be used to
+      [*request* analysis](#tag/External-engine/operation/apiExternalEngineAnalyse)
+      from this external engine.
+  userId:
+    type: string
+    description: The user this engine has been registered for.
+  maxThreads:
+    type: integer
+    description: Maximum number of available threads.
+    minimum: 1
+    maximum: 65536
+  maxHash:
+    type: integer
+    description: Maximum available hash table size, in MiB.
+    minimum: 1
+    maximum: 1048576
+  variants:
+    type: array
+    description: List of supported chess variants.
+    items:
+      $ref: "./UciVariant.yaml"
+  providerData:
+    type:
+      - string
+      - "null"
+    description: |
+      Arbitrary data that the engine provider can use for identification
+      or bookkeeping.
+
+      Users can read this information, but updating it requires knowing
+      or changing the `providerSecret`.
+required:
+  - id
+  - clientSecret
+  - userId
+  - name
+  - maxThreads
+  - maxHash
+  - variants

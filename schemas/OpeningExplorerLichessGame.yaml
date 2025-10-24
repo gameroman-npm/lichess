@@ -1,0 +1,27 @@
+type: object
+
+properties:
+  id:
+    type: string
+  winner:
+    oneOf:
+      - $ref: "./GameColor.yaml"
+      - type: "null"
+  speed:
+    $ref: "./Speed.yaml"
+  white:
+    $ref: "./OpeningExplorerGamePlayer.yaml"
+  black:
+    $ref: "./OpeningExplorerGamePlayer.yaml"
+  year:
+    type: number
+  month:
+    type: [string, "null"]
+
+required:
+  - id
+  - winner
+  - white
+  - black
+  - year
+  - month

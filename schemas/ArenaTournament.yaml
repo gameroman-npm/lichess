@@ -1,0 +1,90 @@
+type: object
+
+properties:
+  id:
+    type: string
+  createdBy:
+    type: string
+  system:
+    type: string
+    const: arena
+  minutes:
+    type: integer
+  clock:
+    $ref: "./Clock.yaml"
+  rated:
+    type: boolean
+  fullName:
+    type: string
+  nbPlayers:
+    type: integer
+  variant:
+    $ref: "./Variant.yaml"
+  startsAt:
+    type: integer
+    format: int64
+  finishesAt:
+    type: integer
+    format: int64
+  status:
+    $ref: "./ArenaStatus.yaml"
+  perf:
+    $ref: "./ArenaPerf.yaml"
+  secondsToStart:
+    type: integer
+  hasMaxRating:
+    type: boolean
+  maxRating:
+    $ref: "./ArenaRatingObj.yaml"
+  minRating:
+    $ref: "./ArenaRatingObj.yaml"
+  minRatedGames:
+    type: object
+    properties:
+      nb:
+        type: integer
+  botsAllowed:
+    type: boolean
+  minAccountAgeInDays:
+    type: integer
+  onlyTitled:
+    type: boolean
+  teamMember:
+    type: string
+  private:
+    type: boolean
+  position:
+    $ref: "./ArenaPosition.yaml"
+  schedule:
+    type: object
+    properties:
+      freq:
+        type: string
+      speed:
+        type: string
+  teamBattle:
+    type: object
+    properties:
+      teams:
+        type: array
+        items:
+          type: string
+      nbLeaders:
+        type: integer
+  winner:
+    $ref: "./LightUser.yaml"
+
+required:
+  - id
+  - createdBy
+  - system
+  - minutes
+  - clock
+  - rated
+  - fullName
+  - nbPlayers
+  - variant
+  - startsAt
+  - finishesAt
+  - status
+  - perf

@@ -1,0 +1,20 @@
+type: object
+
+properties:
+  teamId:
+    type: string
+    example: coders
+  userId:
+    type: string
+    example: thibault
+  date:
+    type: integer
+    example: 1514505150384
+  message:
+    type: string
+    example: "Hello, I would like to join the team!"
+
+required:
+  - teamId
+  - userId
+  - date

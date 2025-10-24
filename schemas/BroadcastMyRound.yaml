@@ -1,0 +1,14 @@
+type: object
+
+properties:
+  round:
+    $ref: "./BroadcastRoundInfo.yaml"
+  tour:
+    $ref: "./BroadcastTour.yaml"
+  study:
+    $ref: "./BroadcastRoundStudyInfo.yaml"
+
+required:
+  - round
+  - tour
+  - study

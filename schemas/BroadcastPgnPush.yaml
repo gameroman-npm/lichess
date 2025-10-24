@@ -1,0 +1,19 @@
+type: object
+
+properties:
+  games:
+    type: array
+    items:
+      type: object
+      properties:
+        tags:
+          $ref: "./BroadcastPgnPushTags.yaml"
+        moves:
+          type: integer
+        error:
+          type: string
+      required:
+        - tags
+
+required:
+  - games

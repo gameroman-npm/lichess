@@ -1,0 +1,3 @@
+oneOf:
+  - $ref: "./TvFeedFeatured.yaml"
+  - $ref: "./TvFeedFen.yaml"

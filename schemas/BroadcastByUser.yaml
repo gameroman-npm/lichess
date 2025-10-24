@@ -1,0 +1,8 @@
+type: object
+
+properties:
+  tour:
+    $ref: "./BroadcastTour.yaml"
+
+required:
+  - tour

@@ -1,0 +1,17 @@
+type: object
+
+properties:
+  tour:
+    $ref: "./BroadcastTour.yaml"
+  group:
+    $ref: "./BroadcastGroup.yaml"
+  rounds:
+    type: array
+    items:
+      $ref: "./BroadcastRoundInfo.yaml"
+  defaultRoundId:
+    type: string
+
+required:
+  - tour
+  - rounds

@@ -1,0 +1,20 @@
+type: object
+
+properties:
+  created:
+    type: array
+    items:
+      $ref: "./ArenaTournament.yaml"
+  started:
+    type: array
+    items:
+      $ref: "./ArenaTournament.yaml"
+  finished:
+    type: array
+    items:
+      $ref: "./ArenaTournament.yaml"
+
+required:
+  - created
+  - started
+  - finished

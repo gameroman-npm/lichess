@@ -1,0 +1,266 @@
+type: object
+
+properties:
+  id:
+    type: string
+  fullName:
+    type: string
+  rated:
+    type: boolean
+  spotlight:
+    type: object
+    properties:
+      headline:
+        type: string
+  berserkable:
+    type: boolean
+  onlyTitled:
+    type: boolean
+  clock:
+    $ref: "./Clock.yaml"
+  minutes:
+    type: integer
+  createdBy:
+    type: string
+  system:
+    type: string
+  secondsToStart:
+    type: integer
+  secondsToFinish:
+    type: integer
+  isFinished:
+    type: boolean
+  isRecentlyFinished:
+    type: boolean
+  pairingsClosed:
+    type: boolean
+  startsAt:
+    type: string
+    format: int64
+  nbPlayers:
+    type: integer
+  verdicts:
+    $ref: "./Verdicts.yaml"
+  quote:
+    type: object
+    properties:
+      text:
+        type: string
+      author:
+        type: string
+    description: "The quote displayed on the tournament page"
+  greatPlayer:
+    type: object
+    properties:
+      name:
+        type: string
+      url:
+        type: string
+        format: uri
+  allowList:
+    type: array
+    items:
+      type: string
+    description: "List of usernames allowed to join the tournament"
+  hasMaxRating:
+    type: boolean
+  maxRating:
+    $ref: "./ArenaRatingObj.yaml"
+  minRating:
+    $ref: "./ArenaRatingObj.yaml"
+  minRatedGames:
+    type: object
+    properties:
+      nb:
+        type: integer
+  botsAllowed:
+    type: boolean
+  minAccountAgeInDays:
+    type: integer
+  perf:
+    type: object
+    properties:
+      icon:
+        type: string
+      key:
+        type: string
+      name:
+        type: string
+    required:
+      - icon
+      - key
+      - name
+  schedule:
+    type: object
+    properties:
+      freq:
+        type: string
+      speed:
+        type: string
+    required:
+      - freq
+      - speed
+  description:
+    type: string
+  variant:
+    type: string
+  duels:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        p:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items:
+            type: object
+            properties:
+              n:
+                type: string
+              r:
+                type: integer
+              k:
+                type: integer
+  standing:
+    type: object
+    properties:
+      page:
+        type: integer
+      players:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            title:
+              $ref: "./Title.yaml"
+            patron:
+              type: boolean
+              deprecated: true
+            patronColor:
+              $ref: "./PatronColor.yaml"
+            flair:
+              $ref: "./Flair.yaml"
+            rank:
+              type: integer
+            rating:
+              type: integer
+            score:
+              type: integer
+            sheet:
+              $ref: "./ArenaSheet.yaml"
+  featured:
+    type: object
+    properties:
+      id:
+        type: string
+      fen:
+        type: string
+      orientation:
+        type: string
+      color:
+        type: string
+      lastMove:
+        type: string
+      white:
+        type: object
+        properties:
+          name:
+            type: string
+          id:
+            type: string
+          rank:
+            type: integer
+          rating:
+            type: integer
+      black:
+        type: object
+        properties:
+          name:
+            type: string
+          id:
+            type: string
+          rank:
+            type: integer
+          rating:
+            type: integer
+      c:
+        type: object
+        properties:
+          white:
+            type: integer
+            description: white's clock in seconds
+          black:
+            type: integer
+            description: black's clock in seconds
+  podium:
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: "./Title.yaml"
+        patron:
+          type: boolean
+          deprecated: true
+        patronColor:
+          $ref: "./PatronColor.yaml"
+        flair:
+          $ref: "./Flair.yaml"
+        rank:
+          type: integer
+        rating:
+          type: integer
+        score:
+          type: integer
+        nb:
+          type: object
+          properties:
+            game:
+              type: integer
+            berserk:
+              type: integer
+            win:
+              type: integer
+        performance:
+          type: integer
+
+  stats:
+    type: object
+    properties:
+      games:
+        type: integer
+      moves:
+        type: integer
+      whiteWins:
+        type: integer
+      blackWins:
+        type: integer
+      draws:
+        type: integer
+      berserks:
+        type: integer
+      averageRating:
+        type: integer
+    required:
+      - games
+      - moves
+      - whiteWins
+      - blackWins
+      - draws
+      - berserks
+      - averageRating
+  myUsername:
+    type: string
+
+required:
+  - id
+  - fullName
+  - clock
+  - nbPlayers

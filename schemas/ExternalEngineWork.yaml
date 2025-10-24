@@ -1,0 +1,34 @@
+oneOf:
+  - allOf:
+      - type: object
+        title: Search by movetime
+        properties:
+          movetime:
+            type: integer
+            description: Amount of time to analyse the position, in milliseconds.
+            minimum: 1
+        required:
+          - movetime
+      - $ref: "./ExternalEngineWorkCommon.yaml"
+  - allOf:
+      - type: object
+        title: Search by depth
+        properties:
+          depth:
+            type: integer
+            description: Analysis target depth
+            minimum: 1
+        required:
+          - depth
+      - $ref: "./ExternalEngineWorkCommon.yaml"
+  - allOf:
+      - type: object
+        title: Search by nodes
+        properties:
+          nodes:
+            type: integer
+            description: Number of nodes to analyse in the position
+            minimum: 1
+        required:
+          - nodes
+      - $ref: "./ExternalEngineWorkCommon.yaml"

@@ -1,0 +1,20 @@
+type: object
+properties:
+  aiLevel:
+    type: integer
+  id:
+    type: string
+  name:
+    type: string
+  title:
+    oneOf:
+      - $ref: "./Title.yaml"
+      - type: "null"
+  rating:
+    type: integer
+  provisional:
+    type: boolean
+
+required:
+  - id
+  - name

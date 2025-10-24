@@ -1,0 +1,14 @@
+type: object
+
+properties:
+  users:
+    additionalProperties:
+      type: number
+  nbGames:
+    type: integer
+
+required:
+  - users
+  - nbGames
+
+example: { "users": { "neio": 201.5, "thibault": 144.5 }, "nbGames": 346 }

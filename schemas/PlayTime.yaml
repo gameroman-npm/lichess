@@ -1,0 +1,10 @@
+type: object
+properties:
+  total:
+    type: integer
+  tv:
+    type: integer
+
+required:
+  - total
+  - tv

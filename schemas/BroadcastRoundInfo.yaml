@@ -1,0 +1,44 @@
+type: object
+
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  slug:
+    type: string
+  createdAt:
+    type: integer
+    format: int64
+  rated:
+    type: boolean
+    description: "Whether the round is used for rating calculations"
+  ongoing:
+    type: boolean
+  startsAt:
+    type: integer
+    format: int64
+  startsAfterPrevious:
+    type: boolean
+    description: "The start date/time is unknown and the round will start automatically when the previous round completes"
+  finishedAt:
+    type: integer
+    format: int64
+  finished:
+    type: boolean
+  url:
+    type: string
+    format: uri
+  delay:
+    type: integer
+    format: int64
+  customScoring:
+    $ref: "./BroadcastCustomScoring.yaml"
+
+required:
+  - id
+  - name
+  - slug
+  - url
+  - createdAt
+  - rated

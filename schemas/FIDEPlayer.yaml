@@ -1,0 +1,26 @@
+type: object
+
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  title:
+    $ref: "./Title.yaml"
+  federation:
+    type: string
+  year:
+    type: [integer, "null"]
+  inactive:
+    type: integer
+  standard:
+    type: integer
+  rapid:
+    type: integer
+  blitz:
+    type: integer
+
+required:
+  - id
+  - name
+  - federation

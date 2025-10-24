@@ -1,0 +1,27 @@
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  rating:
+    type: integer
+  title:
+    $ref: "./Title.yaml"
+  flair:
+    $ref: "./Flair.yaml"
+  patron:
+    type: boolean
+    deprecated: true
+  patronColor:
+    $ref: "./PatronColor.yaml"
+  provisional:
+    type: boolean
+  online:
+    type: boolean
+  lag:
+    type: integer
+
+required:
+  - id
+  - name

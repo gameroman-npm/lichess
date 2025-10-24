@@ -1,0 +1,11 @@
+type: object
+description: Scoring overrides for wins or draws.
+properties:
+  white:
+    $ref: "./BroadcastCustomPointsPerColor.yaml"
+  black:
+    $ref: "./BroadcastCustomPointsPerColor.yaml"
+
+required:
+  - white
+  - black

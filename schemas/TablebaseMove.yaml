@@ -1,0 +1,49 @@
+type: object
+properties:
+  uci:
+    type: string
+    example: "h7h8q"
+  san:
+    type: string
+    example: "h8=Q+"
+  category:
+    type: string
+    enum:
+      - loss
+      - unknown
+      - syzygy-loss
+      - maybe-loss
+      - blessed-loss
+      - draw
+      - cursed-win
+      - maybe-win
+      - syzygy-win
+      - win
+  dtz:
+    type: ["null", "integer"]
+  precise_dtz:
+    type: ["null", "integer"]
+  dtc:
+    type: ["null", "integer"]
+  dtm:
+    type: ["null", "integer"]
+  dtw:
+    type: ["null", "integer"]
+  zeroing:
+    type: boolean
+  conversion:
+    type: boolean
+  checkmate:
+    type: boolean
+  stalemate:
+    type: boolean
+  variant_win:
+    type: boolean
+  variant_loss:
+    type: boolean
+  insufficient_material:
+    type: boolean
+required:
+  - uci
+  - san
+  - category

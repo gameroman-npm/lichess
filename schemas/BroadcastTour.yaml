@@ -1,0 +1,79 @@
+type: object
+
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  slug:
+    type: string
+  createdAt:
+    type: integer
+    example: 1722169800000
+  dates:
+    type: array
+    items:
+      type: integer
+      format: int64
+    description: "Start and end dates of the tournament, as Unix timestamps in milliseconds"
+    minItems: 1
+    maxItems: 2
+    example: [1722169800000, 1722666600000]
+  info:
+    type: object
+    description: "Additional display information about the tournament"
+    properties:
+      website:
+        type: string
+        format: uri
+        description: "Official website. External website URL"
+      players:
+        type: string
+        description: "Featured players"
+      location:
+        type: string
+        description: "Tournament location"
+      tc:
+        type: string
+        description: "Time control"
+      fideTc:
+        type: string
+        enum: [standard, rapid, blitz]
+        description: "FIDE rating category"
+      timeZone:
+        type: string
+        description: |
+          Timezone of the tournament. Example: `America/New_York`.
+          See [list of possible timezone identifiers](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for more.
+      standings:
+        type: string
+        format: uri
+        description: "Official standings website. External website URL"
+      format:
+        type: string
+        description: "Tournament format"
+  tier:
+    type: integer
+    description: "Used to designate featured tournaments on Lichess"
+  image:
+    type: string
+    format: uri
+  description:
+    type: string
+    description: "Full tournament description in markdown format, or in HTML if the html=1 query parameter is set."
+  leaderboard:
+    type: boolean
+  teamTable:
+    type: boolean
+  url:
+    type: string
+    format: uri
+  communityOwner:
+    $ref: "./LightUser.yaml"
+
+required:
+  - id
+  - name
+  - slug
+  - createdAt
+  - url
