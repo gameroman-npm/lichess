@@ -102,12 +102,28 @@ import OpponentGoneEvent from "./OpponentGoneEvent";
 import PatronColor from "./PatronColor";
 import Perf from "./Perf";
 import Perfs from "./Perfs";
+import PerfStat from "./PerfStat";
 import PerfTop10 from "./PerfTop10";
 import PerfType from "./PerfType";
 import PlayTime from "./PlayTime";
 import Profile from "./Profile";
+import PuzzleActivity from "./PuzzleActivity";
+import PuzzleAndGame from "./PuzzleAndGame";
+import PuzzleBatchSelect from "./PuzzleBatchSelect";
+import PuzzleBatchSolveRequest from "./PuzzleBatchSolveRequest";
+import PuzzleBatchSolveResponse from "./PuzzleBatchSolveResponse";
+import PuzzleDashboard from "./PuzzleDashboard";
 import PuzzleModePerf from "./PuzzleModePerf";
+import PuzzlePerformance from "./PuzzlePerformance";
+import PuzzleRacer from "./PuzzleRacer";
+import PuzzleRaceResults from "./PuzzleRaceResults";
+import PuzzleReplay from "./PuzzleReplay";
+import PuzzleStormDashboard from "./PuzzleStormDashboard";
+import RatingHistory from "./RatingHistory";
+import RatingHistoryEntry from "./RatingHistoryEntry";
+import Simul from "./Simul";
 import Speed from "./Speed";
+import StudyImportPgnChapters from "./StudyImportPgnChapters";
 import StudyMetadata from "./StudyMetadata";
 import SwissStatus from "./SwissStatus";
 import Team from "./Team";
@@ -232,12 +248,28 @@ export {
   PatronColor,
   Perf,
   Perfs,
+  PerfStat,
   PerfTop10,
   PerfType,
   PlayTime,
   Profile,
+  PuzzleActivity,
+  PuzzleAndGame,
+  PuzzleBatchSelect,
+  PuzzleBatchSolveRequest,
+  PuzzleBatchSolveResponse,
+  PuzzleDashboard,
   PuzzleModePerf,
+  PuzzlePerformance,
+  PuzzleRacer,
+  PuzzleRaceResults,
+  PuzzleReplay,
+  PuzzleStormDashboard,
+  RatingHistory,
+  RatingHistoryEntry,
+  Simul,
   Speed,
+  StudyImportPgnChapters,
   StudyMetadata,
   SwissStatus,
   Team,

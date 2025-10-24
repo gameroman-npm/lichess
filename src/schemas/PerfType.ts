@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const PerfType = z.enum([
+const PerfType = z.literal([
   "ultraBullet",
   "bullet",
   "blitz",

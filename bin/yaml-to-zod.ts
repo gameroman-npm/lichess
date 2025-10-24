@@ -15,7 +15,9 @@ const BaseSchema = z.object({
   deprecated: z.boolean().optional(),
 });
 
-const SchemaSchemaRef = BaseSchema.extend({ $ref: z.string() })
+const StringYamlRef = z.string().brand("StringYamlRef");
+
+const SchemaSchemaRef = BaseSchema.extend({ $ref: StringYamlRef })
   .strict()
   .transform((s) => ({ ...s, __schema: "$ref" as const }));
 
@@ -27,7 +29,7 @@ const SchemaSchemaString = BaseSchema.extend({
   type: z.literal("string"),
   const: z.string().optional(),
   example: z.string().optional(),
-  format: z.literal(["uri", "int64"]).optional(),
+  format: z.literal(["uri", "date-time", "int64"]).optional(),
   enum: z.array(z.string()).optional(),
   minLength: z.number().optional(),
   maxLength: z.number().optional(),
@@ -189,6 +191,9 @@ function convertToZod_(schema: Schema): ConvertResult {
       }
       if (schema.format === "uri") {
         return { zodSchema: "z.url()", refs: [] };
+      }
+      if (schema.format === "date-time") {
+        return { zodSchema: "z.iso.datetime()", refs: [] };
       }
       let schemaStr = "z.string()";
       if (schema.minLength !== undefined) {
