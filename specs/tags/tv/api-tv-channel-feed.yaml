@@ -1,0 +1,29 @@
+get:
+  operationId: tvChannelFeed
+  summary: Stream current TV game of a TV channel
+  description: |
+    Stream positions and moves of a current [TV channel's game](https://lichess.org/tv/rapid) in [ndjson](#section/Introduction/Streaming-with-ND-JSON).
+    Try it with `curl https://lichess.org/api/tv/rapid/feed`.
+  tags:
+    - TV
+  security: []
+  parameters:
+    - in: path
+      name: channel
+      description: The name of the channel in camel case.
+      schema:
+        type: string
+      required: true
+
+  responses:
+    "200":
+      description: The stream of the current TV game of a TV channel.
+      content:
+        application/x-ndjson:
+          schema:
+            $ref: "../../schemas/TvFeed.yaml"
+          examples:
+            new featured game:
+              $ref: "../../examples/tv-streamCurrentTvGame-newGame.json.yaml"
+            move:
+              $ref: "../../examples/tv-streamCurrentTvGame-move.json.yaml"

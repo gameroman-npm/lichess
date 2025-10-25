@@ -1,0 +1,75 @@
+get:
+  operationId: tvChannels
+  summary: Get current TV games
+  description: |
+    Get basic info about the best games being played for each speed and variant,
+    but also computer games and bot games.
+    See [lichess.org/tv](https://lichess.org/tv).
+  tags:
+    - TV
+  security: []
+  responses:
+    "200":
+      description: The list of games being played for each speed and variant.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - bot
+              - blitz
+              - racingKings
+              - ultraBullet
+              - bullet
+              - classical
+              - threeCheck
+              - antichess
+              - computer
+              - horde
+              - rapid
+              - atomic
+              - crazyhouse
+              - chess960
+              - kingOfTheHill
+              - best
+            properties:
+              bot:
+                $ref: "../../schemas/TvGame.yaml"
+              blitz:
+                $ref: "../../schemas/TvGame.yaml"
+              racingKings:
+                $ref: "../../schemas/TvGame.yaml"
+              ultraBullet:
+                $ref: "../../schemas/TvGame.yaml"
+              bullet:
+                $ref: "../../schemas/TvGame.yaml"
+              classical:
+                $ref: "../../schemas/TvGame.yaml"
+              threeCheck:
+                $ref: "../../schemas/TvGame.yaml"
+              antichess:
+                $ref: "../../schemas/TvGame.yaml"
+              computer:
+                $ref: "../../schemas/TvGame.yaml"
+              horde:
+                $ref: "../../schemas/TvGame.yaml"
+              rapid:
+                $ref: "../../schemas/TvGame.yaml"
+              atomic:
+                $ref: "../../schemas/TvGame.yaml"
+              crazyhouse:
+                $ref: "../../schemas/TvGame.yaml"
+              chess960:
+                $ref: "../../schemas/TvGame.yaml"
+              kingOfTheHill:
+                $ref: "../../schemas/TvGame.yaml"
+              best:
+                $ref: "../../schemas/TvGame.yaml"
+
+          example:
+            $ref: "../../examples/tv-getCurrentTvGames.json"

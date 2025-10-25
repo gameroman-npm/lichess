@@ -1,0 +1,31 @@
+servers:
+  - url: https://tablebase.lichess.ovh
+get:
+  operationId: tablebaseAtomic
+  summary: Tablebase lookup for Atomic chess
+  description: |
+    **Endpoint: <https://tablebase.lichess.ovh>**
+  tags:
+    - Tablebase
+  security: []
+  parameters:
+    - in: query
+      name: fen
+      description: FEN of the position. Underscores allowed.
+      schema:
+        type: string
+      required: true
+  responses:
+    "200":
+      description: The tablebase information for the position in atomic chess.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/TablebaseJson.yaml"
+          example:
+            $ref: "../../examples/tablebase-lookupAtomic.json"

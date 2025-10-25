@@ -1,0 +1,46 @@
+post:
+  operationId: broadcastTourUpdate
+  summary: Update your broadcast tournament
+  description: |
+    Update information about a broadcast tournament that you created.
+    This endpoint accepts the same form data as the web form.
+    All fields must be populated with data. Missing fields will override the broadcast with empty data.
+  tags:
+    - Broadcasts
+  security:
+    - OAuth2: ["study:write"]
+  parameters:
+    - in: path
+      name: broadcastTournamentId
+      description: The broadcast ID
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+  requestBody:
+    required: true
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "../../schemas/BroadcastForm.yaml"
+  responses:
+    "200":
+      description: The broadcast tournament was successfully edited.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Ok.yaml"
+          example:
+            $ref: "../../examples/broadcasts-updateBroadcastTournament.json"
+    "400":
+      description: The broadcast tournament update failed.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"

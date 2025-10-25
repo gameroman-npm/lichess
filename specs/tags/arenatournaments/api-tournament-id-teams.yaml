@@ -1,0 +1,62 @@
+get:
+  operationId: teamsByTournament
+  summary: Get team standing of a team battle
+  description: |
+    Teams of a team battle tournament, with top players, sorted by rank (best first).
+  tags:
+    - "Arena tournaments"
+  security: []
+  parameters:
+    - in: path
+      name: id
+      description: The tournament ID.
+      schema:
+        type: string
+      required: true
+  responses:
+    "200":
+      description: The list of teams of a team battle tournament, with their respective top players.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - id
+              - teams
+            properties:
+              id:
+                type: string
+              teams:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - rank
+                    - id
+                    - score
+                    - players
+                  properties:
+                    rank:
+                      type: number
+                    id:
+                      type: string
+                    score:
+                      type: number
+                    players:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                          - user
+                        properties:
+                          user:
+                            $ref: "../../schemas/LightUser.yaml"
+                          score:
+                            type: number
+          example:
+            $ref: "../../examples/arenas-getTeamStandingOfTeamBattle.json"

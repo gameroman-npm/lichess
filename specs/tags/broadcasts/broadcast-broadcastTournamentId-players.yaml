@@ -1,0 +1,28 @@
+get:
+  operationId: broadcastPlayersGet
+  summary: Get players of a broadcast
+  description: |
+    Get the list of players of a broadcast tournament, if available.
+  tags:
+    - Broadcasts
+  security: []
+  parameters:
+    - in: path
+      name: broadcastTournamentId
+      description: The broadcast tournament ID
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+  responses:
+    "200":
+      description: The broadcast players
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/BroadcastPlayerEntry.yaml"
+          example:
+            $ref: "../../examples/broadcasts-getPlayersOfBroadcastTournament.json"

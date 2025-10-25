@@ -5,6 +5,7 @@
   "author": "GameRoMan",
   "license": "MIT",
   "scripts": {
+    "gen:schemas": "bun ./scripts/yaml-to-zod && bun ./scripts/export-dir && bun run format",
     "test:types": "bunx tsc --noEmit",
     "format": "bunx biome format --write",
     "build": "bunx tsdown",

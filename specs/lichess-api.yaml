@@ -1,0 +1,800 @@
+openapi: "3.1.0"
+info:
+  version: 2.0.93
+  title: Lichess.org API reference
+  contact:
+    name: "Lichess.org API"
+    url: "https://lichess.org/api"
+    email: "contact@lichess.org"
+  x-logo:
+    url: https://lichess1.org/assets/logo/lichess-pad12.svg
+  license:
+    name: AGPL-3.0-or-later
+    url: https://www.gnu.org/licenses/agpl-3.0.txt
+  description: |
+    # Introduction
+    Welcome to the reference for the Lichess API! Lichess is free/libre,
+    open-source chess server powered by volunteers and donations.
+    - Get help in the [Lichess Discord channel](https://discord.gg/lichess)
+    - API demo app with OAuth2 login and gameplay: [source](https://github.com/lichess-org/api-demo) / [demo](https://lichess-org.github.io/api-demo/)
+    - API UI app with OAuth2 login and endpoint forms: [source](https://github.com/lichess-org/api-ui) / [website](https://lichess.org/api/ui)
+    - [Contribute to this documentation on Github](https://github.com/lichess-org/api)
+    - Check out [Lichess widgets to embed in your website](https://lichess.org/developers)
+    - [Download all Lichess rated games](https://database.lichess.org/)
+    - [Download all Lichess puzzles with themes, ratings and votes](https://database.lichess.org/#puzzles)
+    - [Download all evaluated positions](https://database.lichess.org/#evals)
+
+    ## Endpoint
+    All requests go to `https://lichess.org` (unless otherwise specified).
+
+    ## Clients
+    - [Python general API](https://github.com/lichess-org/berserk)
+    - [MicroPython general API](https://github.com/mkomon/uberserk)
+    - [Python general API - async](https://pypi.org/project/async-lichess-sdk)
+    - [Python Lichess Bot](https://github.com/lichess-bot-devs/lichess-bot)
+    - [Python Board API for Certabo](https://github.com/haklein/certabo-lichess)
+    - [Java general API](https://github.com/tors42/chariot)
+    - [JavaScript & TypeScript general API](https://github.com/devjiwonchoi/equine)
+    - [LichessNET - C# API Wrapper](https://github.com/Rabergsel/LichessNET)
+
+    ## Rate limiting
+    All requests are rate limited using various strategies,
+    to ensure the API remains responsive for everyone.
+    Only make one request at a time.
+    If you receive an HTTP response with a [429 status](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#429),
+    please wait a full minute before resuming API usage.
+
+    ## Streaming with ND-JSON
+    Some API endpoints stream their responses as [Newline Delimited JSON a.k.a. **nd-json**](https://github.com/ndjson/ndjson-spec), with one JSON object per line.
+
+    Here's a [JavaScript utility function](https://gist.github.com/ornicar/a097406810939cf7be1df8ea30e94f3e) to help reading NDJSON streamed responses.
+
+    ## Authentication
+    ### Which authentication method is right for me?
+    [Read about the Lichess API authentication methods and code examples](https://github.com/lichess-org/api/blob/master/example/README.md)
+
+    ### Personal Access Token
+    Personal API access tokens allow you to quickly interact with Lichess API without going through an OAuth flow.
+    - [Generate a personal access token](https://lichess.org/account/oauth/token)
+    - `curl https://lichess.org/api/account -H "Authorization: Bearer {token}"`
+    - [NodeJS example](https://github.com/lichess-org/api/tree/master/example/oauth-personal-token)
+
+    ### Token Security
+    - Keep your tokens secret. Do not share them in public repositories or public forums.
+    - Your tokens can be used to make your account perform arbitrary actions (within the limits of the tokens' scope). You remain responsible for all activities on your account.
+    - Do not hardcode tokens in your application's code. Use environment variables or a secure storage and ensure they are not shipped/exposed to users. Be especially careful that they are not included in frontend bundles or apps that are shipped to users.
+    - If you suspect a token has been compromised, revoke it immediately.
+
+    To see your active tokens or revoke them, see [your Personal API access tokens](https://lichess.org/account/oauth/token).
+
+    ### Authorization Code Flow with PKCE
+    The authorization code flow with PKCE allows your users to **login with Lichess**.
+    Lichess supports unregistered and public clients (no client authentication, choose any unique client id).
+    The only accepted code challenge method is `S256`.
+    Access tokens are long-lived (expect one year), unless they are revoked.
+    Refresh tokens are not supported.
+
+    See the [documentation for the OAuth endpoints](#tag/OAuth) or
+    the [PKCE RFC](https://datatracker.ietf.org/doc/html/rfc7636#section-4) for a precise protocol description.
+
+    - [Demo app](https://lichess-org.github.io/api-demo/)
+    - [Minimal client-side example](https://github.com/lichess-org/api/tree/master/example/oauth-app)
+    - [Flask/Python example](https://github.com/lakinwecker/lichess-oauth-flask)
+    - [Java example](https://github.com/tors42/lichess-oauth-pkce-app)
+    - [NodeJS Passport strategy to login with Lichess OAuth2](https://www.npmjs.com/package/passport-lichess)
+
+    #### Real life examples
+    - [PyChess](https://github.com/gbtami/pychess-variants) ([source code](https://github.com/gbtami/pychess-variants))
+    - [Lichess4545](https://www.lichess4545.com/) ([source code](https://github.com/cyanfish/heltour))
+    - [English Chess Federation](https://ecf.octoknight.com/)
+    - [Rotherham Online Chess](https://rotherhamonlinechess.azurewebsites.net/tournaments)
+
+    ### Token format
+    Access tokens and authorization codes match `^[A-Za-z0-9_]+$`.
+    The length of tokens can be increased without notice. Make sure your application can handle at least 512 characters.
+    By convention tokens have a recognizable prefix, but do not rely on this.
+servers:
+  - url: https://lichess.org
+tags:
+  - name: Account
+    description: |
+      Read and write account information and preferences.
+      <https://lichess.org/account/preferences/game-display>
+  - name: Users
+    description: |
+      Access registered users on Lichess.
+      <https://lichess.org/player>
+
+      - Each user blog exposes an atom (RSS) feed, like <https://lichess.org/@/thibault/blog.atom>
+      - User blogs mashup feed: https://lichess.org/blog/community.atom
+      - User blogs mashup feed for a language: https://lichess.org/blog/community/fr.atom
+
+  - name: Relations
+    description: |
+      Access relations between users.
+  - name: Games
+    description: |
+      Access games played on Lichess.
+      <https://lichess.org/games>
+  - name: TV
+    description: |
+      Access Lichess TV channels and games.
+      <https://lichess.org/tv> & <https://lichess.org/games>
+  - name: Puzzles
+    description: |
+      Access Lichess [puzzle history and dashboard](https://lichess.org/training).
+
+      Our collection of puzzles is in the public domain, you can [download it here](https://database.lichess.org/#puzzles).
+      For a list of our puzzle themes with their description, check out the [theme translation file](https://github.com/ornicar/lila/blob/master/translation/source/puzzleTheme.xml).
+      The daily puzzle can be [posted in your slack workspace](https://lichess.org/daily-puzzle-slack).
+  - name: Teams
+    description: |
+      Access and manage Lichess teams and their members.
+      <https://lichess.org/team>
+  - name: Board
+    description: |
+      Play on Lichess with physical boards and third-party clients.
+      Works with normal Lichess accounts. Engine play or assistance is [forbidden](https://lichess.org/page/fair-play).
+
+      ### Features
+      - [Stream incoming chess moves](#operation/boardGameStream)
+      - [Play chess moves](#operation/boardGameMove)
+      - [Read](#operation/boardGameStream) and [write](#operation/boardGameChatPost) in the player and spectator chats
+      - [Receive](#operation/apiStreamEvent), [create](#operation/challengeCreate) and [accept](#operation/challengeAccept) (or [decline](#operation/challengeDecline)) challenges
+      - [Abort](#operation/boardGameAbort) and [resign](#operation/boardGameResign) games
+      - Compatible with normal Lichess accounts
+
+      ### Restrictions
+      - Engine assistance, or any kind of outside help, is [forbidden](https://lichess.org/page/fair-play)
+      - Time controls: [Rapid, Classical and Correspondence](https://lichess.org/faq#time-controls) only.
+        For direct challenges, games vs AI, and bulk pairing, Blitz is also possible.
+
+      ### Links
+      - [Announcement](https://lichess.org/blog/XlRW5REAAB8AUJJ-/welcome-lichess-boards)
+      - [Implementation example](https://github.com/lichess-org/api-demo) and [live demo](https://lichess-org.github.io/api-demo/)
+      - [Certabo support](https://github.com/haklein/certabo-lichess)
+      - [Lichs (play from command-line)](https://github.com/Cqsi/lichs)
+      - [Lichess discord bot](https://top.gg/bot/707287095911120968)
+      - [cli-chess](https://github.com/trevorbayless/cli-chess/)
+  - name: Bot
+    description: |
+      Play on Lichess as a bot. Allows engine play.
+      Read the [blog post announcement of lichess bots](https://lichess.org/blog/WvDNticAAMu_mHKP/welcome-lichess-bots).
+
+      Only works with [Bot accounts](#operation/botAccountUpgrade).
+
+      ### Features
+      - [Stream incoming chess moves](#operation/botGameStream)
+      - [Play chess moves](#operation/botGameMove)
+      - [Read](#operation/botGameStream) and [write](#operation/botGameChat) in the player and spectator chats
+      - [Receive](#operation/apiStreamEvent), [create](#operation/challengeCreate) and [accept](#operation/challengeAccept) (or [decline](#operation/challengeDecline)) challenges
+      - [Abort](#operation/botGameAbort) and [resign](#operation/botGameResign) games
+      - Engine assistance is [allowed](https://lichess.org/page/fair-play)
+      ### Restrictions
+      - Bots can only play challenge games:  pools and tournaments are off-limits
+      - Bots cannot play UltraBullet (¼+0) because it requires making too many requests. But 0+1 and ½+0 are allowed.
+      - Bots must follow [Lichess TOS](https://lichess.org/terms-of-service) specifically Sandbagging, Constant Aborting, Boosting, etc
+      - Bot devs are advised to make their Bots play casual only when testing their Bots logic and to avoid breaking Lichess TOS.
+      ### Integrations
+      - [Python3 lichess-bot](https://github.com/lichess-bot-devs/lichess-bot) (official)
+      - [Python3 lichess UCI bot](https://github.com/Torom/BotLi)
+      - [JavaScript bot-o-tron](https://github.com/tailuge/bot-o-tron)
+      - [Golang lichess-bot](https://github.com/dolegi/lichess-bot)
+      - [Electronic Chessboard](http://www.oliviermercier.com/res/projects/chessboard/)
+      - Yours? Please make [an issue or pull request](https://github.com/lichess-org/api).
+      ### Links
+      - [Announcement](https://lichess.org/blog/WvDNticAAMu_mHKP/welcome-lichess-bots)
+      - Join the [Lichess Bots team](https://lichess.org/team/lichess-bots) with your bot account
+      - [Get help in the discord channel](https://discord.gg/quwueFd)
+      - Watch [Lichess Bot TV](https://lichess.org/tv/bot)
+  - name: Challenges
+    description: |
+      Send and receive challenges to play.
+
+      To create a lot of challenges, consider [bulk pairing](#operation/bulkPairingCreate) instead.
+  - name: Bulk pairings
+    description: |
+      Create many games for other players.
+
+      These endpoints are intended for tournament organisers.
+  - name: Arena tournaments
+    description: |
+      Access Arena tournaments played on Lichess.
+      [Official Arena tournaments](https://lichess.org/tournament) are maintained by Lichess,
+      but you can [create your own Arena tournaments](https://lichess.org/tournament/new) as well.
+  - name: Swiss tournaments
+    description: |
+      Access Swiss tournaments played on Lichess.
+      [Read more about Swiss tournaments.](https://lichess.org/swiss).
+  - name: Simuls
+    description: |
+      Access simuls played on Lichess.
+      <https://lichess.org/simul>
+  - name: Studies
+    description: |
+      Access Lichess studies.
+      <https://lichess.org/study>
+  - name: Messaging
+    description: |
+      Private messages with other players.
+      <https://lichess.org/inbox>
+  - name: Broadcasts
+    description: |
+      Relay chess events on Lichess.
+      [Official broadcasts](https://lichess.org/broadcast) are maintained by Lichess,
+      but you can [create your own broadcasts](https://lichess.org/broadcast/new) to cover any live game or chess event.
+      You will need to publish PGN on a public URL so that Lichess can pull updates from it.
+      Alternatively, you can push PGN updates to Lichess using [this API endpoint](#tag/Broadcasts/operation/broadcastPush).
+
+      Broadcasts are organized in tournaments, which have several rounds, which have several games.
+      You must first create a tournament, then you can add rounds to them.
+  - name: FIDE
+    description: |
+      FIDE players and federations from [their public download](https://ratings.fide.com/download_lists.phtml).
+
+      <https://lichess.org/fide>
+  - name: Analysis
+    description: |
+      Access Lichess cloud evaluations database.
+      <https://lichess.org/analysis>
+  - name: External engine
+    description: |
+      **This API is in alpha and subject to change.**
+
+      Use or provide external engine analysis.
+
+      External engines can provide analysis on pages like the
+      [analysis board](https://lichess.org/analysis), running as a service
+      outside of the browser, or even on a different machine.
+  - name: Opening Explorer
+    description: |
+      Lookup positions from the [Lichess opening explorer](https://lichess.org/analysis#explorer).
+
+      Runs <https://github.com/lichess-org/lila-openingexplorer>.
+
+      **The endpoint hostname is not lichess.org but explorer.lichess.ovh.**
+  - name: Tablebase
+    description: |
+      Lookup positions from the [Lichess tablebase server](https://lichess.org/blog/W3WeMyQAACQAdfAL/7-piece-syzygy-tablebases-are-complete).
+
+      **The endpoint hostname is not lichess.org but tablebase.lichess.ovh.**
+  - name: OAuth
+    description: |
+      Obtaining and revoking OAuth tokens.
+
+      [Read about the Lichess API authentication methods and code examples](https://github.com/lichess-org/api/blob/master/example/README.md).
+paths:
+  /api/users/status:
+    $ref: "./tags/users/api-users-status.yaml"
+
+  /api/player:
+    $ref: "./tags/users/api-player.yaml"
+
+  /api/player/top/{nb}/{perfType}:
+    $ref: "./tags/users/api-player-top-nb-perfType.yaml"
+
+  /api/user/{username}:
+    $ref: "./tags/users/api-user-username.yaml"
+
+  /api/user/{username}/rating-history:
+    $ref: "./tags/users/api-user-username-rating-history.yaml"
+
+  /api/user/{username}/perf/{perf}:
+    $ref: "./tags/users/api-user-username-perf-perf.yaml"
+
+  /api/user/{username}/activity:
+    $ref: "./tags/users/api-user-username-activity.yaml"
+
+  /api/puzzle/daily:
+    $ref: "./tags/puzzles/api-puzzle-daily.yaml"
+
+  /api/puzzle/{id}:
+    $ref: "./tags/puzzles/api-puzzle-id.yaml"
+
+  /api/puzzle/next:
+    $ref: "./tags/puzzles/api-puzzle-next.yaml"
+
+  /api/puzzle/batch/{angle}:
+    $ref: "./tags/puzzles/api-puzzle-batch-angle.yaml"
+
+  /api/puzzle/activity:
+    $ref: "./tags/puzzles/api-puzzle-activity.yaml"
+
+  /api/puzzle/replay/{days}/{theme}:
+    $ref: "./tags/puzzles/api-puzzle-replay-days-theme.yaml"
+
+  /api/puzzle/dashboard/{days}:
+    $ref: "./tags/puzzles/api-puzzle-dashboard-days.yaml"
+
+  /api/storm/dashboard/{username}:
+    $ref: "./tags/puzzles/api-storm-dashboard-username.yaml"
+
+  /api/racer:
+    $ref: "./tags/puzzles/api-racer.yaml"
+
+  /api/racer/{id}:
+    $ref: "./tags/puzzles/api-racer-id.yaml"
+
+  /api/users:
+    $ref: "./tags/users/api-users.yaml"
+
+  /api/account:
+    $ref: "./tags/account/api-account.yaml"
+
+  /api/account/email:
+    $ref: "./tags/account/api-account-email.yaml"
+
+  /api/account/preferences:
+    $ref: "./tags/account/api-account-preferences.yaml"
+
+  /api/account/kid:
+    $ref: "./tags/account/api-account-kid.yaml"
+
+  /api/timeline:
+    $ref: "./tags/account/api-timeline.yaml"
+
+  /game/export/{gameId}:
+    $ref: "./tags/games/game-export-gameId.yaml"
+
+  /api/user/{username}/current-game:
+    $ref: "./tags/games/api-user-username-current-game.yaml"
+
+  /api/games/user/{username}:
+    $ref: "./tags/games/api-games-user-username.yaml"
+
+  /api/games/export/_ids:
+    $ref: "./tags/games/api-games-export-_ids.yaml"
+
+  /api/stream/games-by-users:
+    $ref: "./tags/games/api-stream-games-by-users.yaml"
+
+  /api/stream/games/{streamId}:
+    $ref: "./tags/games/api-stream-games-streamId.yaml"
+
+  /api/stream/games/{streamId}/add:
+    $ref: "./tags/games/api-stream-games-streamId-add.yaml"
+
+  /api/account/playing:
+    $ref: "./tags/games/api-account-playing.yaml"
+
+  /api/stream/game/{id}:
+    $ref: "./tags/games/api-stream-game-id.yaml"
+
+  /api/import:
+    $ref: "./tags/games/api-import.yaml"
+
+  /api/games/export/imports:
+    $ref: "./tags/games/api-games-export-imports.yaml"
+
+  /api/games/export/bookmarks:
+    $ref: "./tags/games/api-games-export-bookmarks.yaml"
+
+  /api/tv/channels:
+    $ref: "./tags/tv/api-tv-channels.yaml"
+
+  /api/tv/feed:
+    $ref: "./tags/tv/api-tv-feed.yaml"
+
+  /api/tv/{channel}/feed:
+    $ref: "./tags/tv/api-tv-channel-feed.yaml"
+
+  /api/tv/{channel}:
+    $ref: "./tags/tv/api-tv-channel.yaml"
+
+  /api/tournament:
+    $ref: "./tags/arenatournaments/api-tournament.yaml"
+
+  /api/tournament/{id}:
+    $ref: "./tags/arenatournaments/api-tournament-id.yaml"
+
+  /api/tournament/{id}/join:
+    $ref: "./tags/arenatournaments/api-tournament-id-join.yaml"
+
+  /api/tournament/{id}/withdraw:
+    $ref: "./tags/arenatournaments/api-tournament-id-withdraw.yaml"
+
+  /api/tournament/{id}/terminate:
+    $ref: "./tags/arenatournaments/api-tournament-id-terminate.yaml"
+
+  /api/tournament/team-battle/{id}:
+    $ref: "./tags/arenatournaments/api-tournament-team-battle-id.yaml"
+
+  /api/tournament/{id}/games:
+    $ref: "./tags/arenatournaments/api-tournament-id-games.yaml"
+
+  /api/tournament/{id}/results:
+    $ref: "./tags/arenatournaments/api-tournament-id-results.yaml"
+
+  /api/tournament/{id}/teams:
+    $ref: "./tags/arenatournaments/api-tournament-id-teams.yaml"
+
+  /api/user/{username}/tournament/created:
+    $ref: "./tags/arenatournaments/api-user-username-tournament-created.yaml"
+
+  /api/user/{username}/tournament/played:
+    $ref: "./tags/arenatournaments/api-user-username-tournament-played.yaml"
+
+  /api/swiss/new/{teamId}:
+    $ref: "./tags/swisstournaments/api-swiss-new-teamId.yaml"
+
+  /api/swiss/{id}:
+    $ref: "./tags/swisstournaments/api-swiss-id.yaml"
+
+  /api/swiss/{id}/edit:
+    $ref: "./tags/swisstournaments/api-swiss-id-edit.yaml"
+
+  /api/swiss/{id}/schedule-next-round:
+    $ref: "./tags/swisstournaments/api-swiss-id-schedule-next-round.yaml"
+
+  /api/swiss/{id}/join:
+    $ref: "./tags/swisstournaments/api-swiss-id-join.yaml"
+
+  /api/swiss/{id}/withdraw:
+    $ref: "./tags/swisstournaments/api-swiss-id-withdraw.yaml"
+
+  /api/swiss/{id}/terminate:
+    $ref: "./tags/swisstournaments/api-swiss-id-terminate.yaml"
+
+  /swiss/{id}.trf:
+    $ref: "./tags/swisstournaments/swiss-id.trf.yaml"
+
+  /api/swiss/{id}/games:
+    $ref: "./tags/swisstournaments/api-swiss-id-games.yaml"
+
+  /api/swiss/{id}/results:
+    $ref: "./tags/swisstournaments/api-swiss-id-results.yaml"
+
+  /api/team/{teamId}/swiss:
+    $ref: "./tags/teams/api-team-teamId-swiss.yaml"
+
+  /api/study/{studyId}/{chapterId}.pgn:
+    $ref: "./tags/studies/api-study-studyId-chapterId.pgn.yaml"
+
+  /api/study/{studyId}.pgn:
+    $ref: "./tags/studies/api-study-studyId.pgn.yaml"
+
+  /api/study/{studyId}/import-pgn:
+    $ref: "./tags/studies/api-study-studyId-import-pgn.yaml"
+
+  /api/study/{studyId}/{chapterId}/tags:
+    $ref: "./tags/studies/api-study-studyId-chapterId-tags.yaml"
+
+  /study/by/{username}/export.pgn:
+    $ref: "./tags/studies/study-by-username-export.pgn.yaml"
+
+  /api/study/by/{username}:
+    $ref: "./tags/studies/api-study-by-username.yaml"
+
+  /api/study/{studyId}/{chapterId}:
+    $ref: "./tags/studies/api-study-studyId-chapterId.yaml"
+
+  /api/broadcast:
+    $ref: "./tags/broadcasts/api-broadcasts-official.yaml"
+
+  /api/broadcast/top:
+    $ref: "./tags/broadcasts/api-broadcasts-top.yaml"
+
+  /api/broadcast/by/{username}:
+    $ref: "./tags/broadcasts/api-broadcasts-by-user.yaml"
+
+  /api/broadcast/search:
+    $ref: "./tags/broadcasts/api-broadcasts-search.yaml"
+
+  /broadcast/new:
+    $ref: "./tags/broadcasts/broadcast-new.yaml"
+
+  /api/broadcast/{broadcastTournamentId}:
+    $ref: "./tags/broadcasts/broadcast-broadcastTournamentId.yaml"
+
+  /broadcast/{broadcastTournamentId}/players:
+    $ref: "./tags/broadcasts/broadcast-broadcastTournamentId-players.yaml"
+
+  /broadcast/{broadcastTournamentId}/players/{playerId}:
+    $ref: "./tags/broadcasts/broadcast-broadcastTournamentId-players-playerId.yaml"
+
+  /broadcast/{broadcastTournamentId}/edit:
+    $ref: "./tags/broadcasts/broadcast-broadcastTournamentId-edit.yaml"
+
+  /broadcast/{broadcastTournamentId}/new:
+    $ref: "./tags/broadcasts/broadcast-broadcastTournamentId-new.yaml"
+
+  /api/broadcast/{broadcastTournamentSlug}/{broadcastRoundSlug}/{broadcastRoundId}:
+    $ref: "./tags/broadcasts/api-broadcast-broadcastTournamentSlug-broadcastRoundSlug-broadcastRoundId.yaml"
+
+  /broadcast/round/{broadcastRoundId}/edit:
+    $ref: "./tags/broadcasts/broadcast-round-broadcastRoundId-edit.yaml"
+
+  /api/broadcast/round/{broadcastRoundId}/reset:
+    $ref: "./tags/broadcasts/broadcast-round-broadcastRoundId-reset.yaml"
+
+  /api/broadcast/round/{broadcastRoundId}/push:
+    $ref: "./tags/broadcasts/broadcast-round-broadcastRoundId-push.yaml"
+
+  /api/stream/broadcast/round/{broadcastRoundId}.pgn:
+    $ref: "./tags/broadcasts/api-stream-broadcast-round-broadcastRoundId-pgn.yaml"
+
+  /api/broadcast/round/{broadcastRoundId}.pgn:
+    $ref: "./tags/broadcasts/api-broadcast-round-broadcastRoundId-pgn.yaml"
+
+  /api/broadcast/{broadcastTournamentId}.pgn:
+    $ref: "./tags/broadcasts/api-broadcast-broadcastTournamentId-pgn.yaml"
+
+  /api/broadcast/my-rounds:
+    $ref: "./tags/broadcasts/api-broadcast-my-rounds.yaml"
+
+  /api/fide/player/{playerId}:
+    $ref: "./tags/fide/api-fide-player-playerId.yaml"
+
+  /api/fide/player:
+    $ref: "./tags/fide/api-fide-player-search.yaml"
+
+  /api/simul:
+    $ref: "./tags/simuls/api-simul.yaml"
+
+  /api/team/{teamId}:
+    $ref: "./tags/teams/api-team-teamId.yaml"
+
+  /api/team/all:
+    $ref: "./tags/teams/api-team-all.yaml"
+
+  /api/team/of/{username}:
+    $ref: "./tags/teams/api-team-of-username.yaml"
+
+  /api/team/search:
+    $ref: "./tags/teams/api-team-search.yaml"
+
+  /api/team/{teamId}/users:
+    $ref: "./tags/teams/api-team-teamId-users.yaml"
+
+  /api/team/{teamId}/arena:
+    $ref: "./tags/teams/api-team-teamId-arena.yaml"
+
+  /team/{teamId}/join:
+    $ref: "./tags/teams/team-teamId-join.yaml"
+
+  /team/{teamId}/quit:
+    $ref: "./tags/teams/team-teamId-quit.yaml"
+
+  /api/team/{teamId}/requests:
+    $ref: "./tags/teams/api-team-teamId-requests.yaml"
+
+  /api/team/{teamId}/request/{userId}/accept:
+    $ref: "./tags/teams/api-team-teamId-request-userId-accept.yaml"
+
+  /api/team/{teamId}/request/{userId}/decline:
+    $ref: "./tags/teams/api-team-teamId-request-userId-decline.yaml"
+
+  /api/team/{teamId}/kick/{userId}:
+    $ref: "./tags/teams/api-team-teamId-kick-userId.yaml"
+
+  /team/{teamId}/pm-all:
+    $ref: "./tags/teams/team-teamId-pm-all.yaml"
+
+  /api/streamer/live:
+    $ref: "./tags/users/api-streamer-live.yaml"
+
+  /api/crosstable/{user1}/{user2}:
+    $ref: "./tags/users/api-crosstable-user1-user2.yaml"
+
+  /api/player/autocomplete:
+    $ref: "./tags/users/api-player-autocomplete.yaml"
+
+  /api/user/{username}/note:
+    $ref: "./tags/users/api-user-username-note.yaml"
+
+  /api/rel/following:
+    $ref: "./tags/relations/api-rel-following.yaml"
+
+  /api/rel/follow/{username}:
+    $ref: "./tags/relations/api-rel-follow-username.yaml"
+
+  /api/rel/unfollow/{username}:
+    $ref: "./tags/relations/api-rel-unfollow-username.yaml"
+
+  /api/rel/block/{username}:
+    $ref: "./tags/relations/api-rel-block-username.yaml"
+
+  /api/rel/unblock/{username}:
+    $ref: "./tags/relations/api-rel-unblock-username.yaml"
+
+  /api/stream/event:
+    $ref: "./tags/board/api-stream-event.yaml"
+
+  /api/board/seek:
+    $ref: "./tags/board/api-board-seek.yaml"
+
+  /api/board/game/stream/{gameId}:
+    $ref: "./tags/board/api-board-game-stream-gameId.yaml"
+
+  /api/board/game/{gameId}/move/{move}:
+    $ref: "./tags/board/api-board-game-gameId-move-move.yaml"
+
+  /api/board/game/{gameId}/chat:
+    $ref: "./tags/board/api-board-game-gameId-chat.yaml"
+
+  /api/board/game/{gameId}/abort:
+    $ref: "./tags/board/api-board-game-gameId-abort.yaml"
+
+  /api/board/game/{gameId}/resign:
+    $ref: "./tags/board/api-board-game-gameId-resign.yaml"
+
+  /api/board/game/{gameId}/draw/{accept}:
+    $ref: "./tags/board/api-board-game-gameId-draw-accept.yaml"
+
+  /api/board/game/{gameId}/takeback/{accept}:
+    $ref: "./tags/board/api-board-game-gameId-takeback-accept.yaml"
+
+  /api/board/game/{gameId}/claim-victory:
+    $ref: "./tags/board/api-board-game-gameId-claim-victory.yaml"
+
+  /api/board/game/{gameId}/claim-draw:
+    $ref: "./tags/board/api-board-game-gameId-claim-draw.yaml"
+
+  /api/board/game/{gameId}/berserk:
+    $ref: "./tags/board/api-board-game-gameId-berserk.yaml"
+
+  /api/bot/online:
+    $ref: "./tags/bot/api-bot-online.yaml"
+
+  /api/bot/account/upgrade:
+    $ref: "./tags/bot/api-bot-account-upgrade.yaml"
+
+  /api/bot/game/stream/{gameId}:
+    $ref: "./tags/bot/api-bot-game-stream-gameId.yaml"
+
+  /api/bot/game/{gameId}/move/{move}:
+    $ref: "./tags/bot/api-bot-game-gameId-move-move.yaml"
+
+  /api/bot/game/{gameId}/chat:
+    $ref: "./tags/bot/api-bot-game-gameId-chat.yaml"
+
+  /api/bot/game/{gameId}/abort:
+    $ref: "./tags/bot/api-bot-game-gameId-abort.yaml"
+
+  /api/bot/game/{gameId}/resign:
+    $ref: "./tags/bot/api-bot-game-gameId-resign.yaml"
+
+  /api/bot/game/{gameId}/draw/{accept}:
+    $ref: "./tags/bot/api-bot-game-gameId-draw-accept.yaml"
+
+  /api/bot/game/{gameId}/takeback/{accept}:
+    $ref: "./tags/bot/api-bot-game-gameId-takeback-accept.yaml"
+
+  /api/bot/game/{gameId}/claim-victory:
+    $ref: "./tags/bot/api-bot-game-gameId-claim-victory.yaml"
+
+  /api/bot/game/{gameId}/claim-draw:
+    $ref: "./tags/bot/api-bot-game-gameId-claim-draw.yaml"
+
+  /api/challenge:
+    $ref: "./tags/challenges/api-challenge.yaml"
+
+  /api/challenge/{username}:
+    $ref: "./tags/challenges/api-challenge-username.yaml"
+
+  /api/challenge/{challengeId}/show:
+    $ref: "./tags/challenges/api-challenge-id-show.yaml"
+
+  /api/challenge/{challengeId}/accept:
+    $ref: "./tags/challenges/api-challenge-challengeId-accept.yaml"
+
+  /api/challenge/{challengeId}/decline:
+    $ref: "./tags/challenges/api-challenge-challengeId-decline.yaml"
+
+  /api/challenge/{challengeId}/cancel:
+    $ref: "./tags/challenges/api-challenge-challengeId-cancel.yaml"
+
+  /api/challenge/ai:
+    $ref: "./tags/challenges/api-challenge-ai.yaml"
+
+  /api/challenge/open:
+    $ref: "./tags/challenges/api-challenge-open.yaml"
+
+  /api/challenge/{gameId}/start-clocks:
+    $ref: "./tags/challenges/api-challenge-gameId-start-clocks.yaml"
+
+  /api/bulk-pairing:
+    $ref: "./tags/bulkpairings/api-bulk-pairing.yaml"
+
+  /api/bulk-pairing/{id}/start-clocks:
+    $ref: "./tags/bulkpairings/api-bulk-pairing-id-start-clocks.yaml"
+
+  /api/bulk-pairing/{id}:
+    $ref: "./tags/bulkpairings/api-bulk-pairing-id.yaml"
+
+  /api/bulk-pairing/{id}/games:
+    $ref: "./tags/bulkpairings/api-bulk-pairing-id-games.yaml"
+
+  /api/round/{gameId}/add-time/{seconds}:
+    $ref: "./tags/challenges/api-round-gameId-add-time-seconds.yaml"
+
+  /api/token/admin-challenge:
+    $ref: "./tags/challenges/api-token-admin-challenge.yaml"
+
+  /inbox/{username}:
+    $ref: "./tags/messaging/inbox-username.yaml"
+
+  /api/cloud-eval:
+    $ref: "./tags/analysis/api-cloud-eval.yaml"
+
+  /api/external-engine:
+    $ref: "./tags/externalengine/api-external-engine.yaml"
+
+  /api/external-engine/{id}:
+    $ref: "./tags/externalengine/api-external-engine-id.yaml"
+
+  /api/external-engine/{id}/analyse:
+    $ref: "./tags/externalengine/api-external-engine-id-analyse.yaml"
+
+  /api/external-engine/work:
+    $ref: "./tags/externalengine/api-external-engine-work.yaml"
+
+  /api/external-engine/work/{id}:
+    $ref: "./tags/externalengine/api-external-engine-work-id.yaml"
+
+  /oauth:
+    $ref: "./tags/oauth/oauth.yaml"
+
+  /api/token:
+    $ref: "./tags/oauth/api-token.yaml"
+
+  /api/token/test:
+    $ref: "./tags/oauth/api-token-test.yaml"
+
+  /masters:
+    $ref: "./tags/openingexplorer/masters.yaml"
+
+  /lichess:
+    $ref: "./tags/openingexplorer/lichess.yaml"
+
+  /player:
+    $ref: "./tags/openingexplorer/player.yaml"
+
+  /master/pgn/{gameId}:
+    $ref: "./tags/openingexplorer/master-pgn-gameId.yaml"
+
+  /standard:
+    $ref: "./tags/tablebase/standard.yaml"
+
+  /atomic:
+    $ref: "./tags/tablebase/atomic.yaml"
+
+  /antichess:
+    $ref: "./tags/tablebase/antichess.yaml"
+
+components:
+  schemas:
+    $ref: "./schemas/_index.yaml"
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Read [the introduction for how to make authenticated requests](#section/Introduction/Authentication).
+      flows:
+        authorizationCode:
+          authorizationUrl: https://lichess.org/oauth
+          tokenUrl: https://lichess.org/api/token
+          scopes:
+            "preference:read": Read your preferences
+            "preference:write": Write your preferences
+            "email:read": Read your email address
+            "engine:read": Read your external engines
+            "engine:write": Create, update, delete your external engines
+            "challenge:read": Read incoming challenges
+            "challenge:write": Create, accept, decline challenges
+            "challenge:bulk": Create, delete, query bulk pairings
+            "study:read": Read private studies and broadcasts
+            "study:write": Create, update, delete studies and broadcasts
+            "tournament:write": Create tournaments
+            "racer:write": Create and join puzzle races
+            "puzzle:read": Read puzzle activity
+            "puzzle:write": Write puzzle activity
+            "team:read": Read private team information
+            "team:write": Join, leave teams
+            "team:lead": Manage teams (kick members, send PMs)
+            "follow:read": Read followed players
+            "follow:write": Follow and unfollow other players
+            "msg:write": Send private messages to other players
+            "board:play": Play with the Board API
+            "bot:play": Play with the Bot API. Only for [Bot accounts](#operation/botAccountUpgrade)
+            "web:mod": Use moderator tools (within the bounds of your permissions)

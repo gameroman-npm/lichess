@@ -370,7 +370,7 @@ async function processFile(filePath: string) {
 
   uniqueRefs.sort();
   const refImports = uniqueRefs
-    .map((refName) => `import ${refName} from "./${refName}";`)
+    .map((refName) => `import ${refName} from "./${refName}";` as const)
     .join("\n");
   const spacedRefImports = refImports
     ? (`\n${refImports}\n` as const)
@@ -394,11 +394,13 @@ export default ${fileName};
 async function main() {
   const fileName = Bun.argv[2];
 
+  const schemasDir = "specs/schemas" as const;
+
   if (fileName) {
-    const fileNameWithExtension = `schemas/${fileName}.yaml` as const;
+    const fileNameWithExtension = `${schemasDir}/${fileName}.yaml` as const;
     await processFile(fileNameWithExtension);
   } else {
-    const glob = new Bun.Glob("schemas/*.{yaml}");
+    const glob = new Bun.Glob(`${schemasDir}/*.{yaml}` as const);
     const yamlFiles = await Array.fromAsync(glob.scan());
     const filesToProcess = yamlFiles.filter((f) => !f.includes("_index.yaml"));
     for (const fullPath of filesToProcess) {

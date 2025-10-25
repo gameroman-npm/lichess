@@ -1,0 +1,30 @@
+get:
+  operationId: apiUserActivity
+  summary: Get user activity
+  description: |
+    Read data to generate the activity feed of a user.
+  tags:
+    - Users
+  security: []
+  parameters:
+    - in: path
+      name: username
+      schema:
+        type: string
+      required: true
+  responses:
+    "200":
+      description: The activity feed of the user.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../schemas/UserActivity.yaml"
+          example:
+            $ref: "../../examples/users-getUserActivity.json"
