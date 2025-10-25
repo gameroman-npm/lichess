@@ -12,6 +12,7 @@ const GameSource = z.literal([
   "simul",
   "relay",
   "pool",
+  "arena",
   "swiss",
 ]);
 

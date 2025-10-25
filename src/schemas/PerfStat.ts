@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import Title from "./Title";
+import LightUser from "./LightUser";
 
 const PerfStat = z.object({
   user: z.object({ name: z.string() }),
@@ -18,10 +18,6 @@ const PerfStat = z.object({
   rank: z.int().nullable(),
   percentile: z.number(),
   stat: z.object({
-    perfType: z.object({
-      key: z.string(),
-      name: z.string(),
-    }),
     highest: z
       .object({
         int: z.int(),
@@ -36,15 +32,11 @@ const PerfStat = z.object({
         gameId: z.string(),
       })
       .optional(),
-    id: z.string(),
     bestWins: z.object({
       results: z.array(
         z.object({
           opRating: z.int(),
-          opId: z.object({
-            id: z.string(),
-            name: z.string(),
-          }),
+          opId: LightUser,
           at: z.iso.datetime(),
           gameId: z.string(),
         })
@@ -54,10 +46,7 @@ const PerfStat = z.object({
       results: z.array(
         z.object({
           opRating: z.int(),
-          opId: z.object({
-            id: z.string(),
-            name: z.string(),
-          }),
+          opId: LightUser,
           at: z.iso.datetime(),
           gameId: z.string(),
         })
@@ -77,7 +66,21 @@ const PerfStat = z.object({
     }),
     resultStreak: z.object({
       win: z.object({
-        cur: z.object({ v: z.int() }),
+        cur: z.object({
+          v: z.int(),
+          from: z
+            .object({
+              at: z.iso.datetime(),
+              gameId: z.string(),
+            })
+            .optional(),
+          to: z
+            .object({
+              at: z.iso.datetime(),
+              gameId: z.string(),
+            })
+            .optional(),
+        }),
         max: z.object({
           v: z.int(),
           from: z
@@ -126,11 +129,6 @@ const PerfStat = z.object({
             .optional(),
         }),
       }),
-    }),
-    userId: z.object({
-      id: z.string(),
-      name: z.string(),
-      title: z.union([Title, z.null()]),
     }),
     playStreak: z.object({
       nb: z.object({

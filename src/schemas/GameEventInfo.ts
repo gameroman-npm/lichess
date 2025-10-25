@@ -28,6 +28,7 @@ const GameEventInfo = z.object({
   ratingDiff: z.int().optional(),
   compat: GameCompat.optional(),
   id: z.string().optional(),
+  tournamentId: z.string().optional(),
 });
 
 type GameEventInfo = z.infer<typeof GameEventInfo>;
