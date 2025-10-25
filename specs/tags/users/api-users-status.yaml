@@ -1,0 +1,86 @@
+get:
+  operationId: apiUsersStatus
+  summary: Get real-time users status
+  description: |
+    Read the `online`, `playing` and `streaming` flags of several users.
+    This API is very fast and cheap on lichess side.
+    So you can call it quite often (like once every 5 seconds).
+    Use it to track players and know when they're connected on lichess and playing games.
+  tags:
+    - Users
+  security: []
+  parameters:
+    - in: query
+      name: ids
+      required: true
+      description: User IDs separated by commas. Up to 100 IDs.
+      schema:
+        type: string
+      example: thibault,maia1,maia5
+    - in: query
+      name: withSignal
+      required: false
+      description: |
+        Also return the network signal of the player, when available.
+        It ranges from 1 (poor connection, lag > 500ms) to 4 (great connection, lag < 150ms)
+        Defaults to `false` to preserve server resources.
+      schema:
+        type: boolean
+      example: true
+    - in: query
+      name: withGameIds
+      required: false
+      description: |
+        Also return the ID of the game being played, if any, for each player, in a `playingId` field.
+        Defaults to `false` to preserve server resources.
+      schema:
+        type: boolean
+      example: true
+    - in: query
+      name: withGameMetas
+      required: false
+      description: |
+        Also return the id, time control and variant of the game being played, if any, for each player, in a `playing` field.
+        Defaults to `false` to preserve server resources. Disables `withGameIds`.
+      schema:
+        type: boolean
+      example: true
+  responses:
+    "200":
+      description: The list of users and their respective statuses.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                flair:
+                  $ref: "../../schemas/Flair.yaml"
+                title:
+                  $ref: "../../schemas/Title.yaml"
+                online:
+                  type: boolean
+                playing:
+                  type: boolean
+                streaming:
+                  type: boolean
+                patron:
+                  type: boolean
+                  deprecated: true
+                patronColor:
+                  $ref: "../../schemas/PatronColor.yaml"
+              required:
+                - id
+                - name
+          example:
+            $ref: "../../examples/users-getRealTimeUsersStatus.json"

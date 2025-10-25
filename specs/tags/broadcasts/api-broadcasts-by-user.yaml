@@ -1,0 +1,72 @@
+get:
+  operationId: broadcastsByUser
+  summary: Get broadcasts created by a user
+  description: |
+    Get all incoming, ongoing, and finished official broadcasts.
+    The broadcasts are sorted by created date, most recent first.
+  tags:
+    - Broadcasts
+  security: []
+  parameters:
+    - in: path
+      name: username
+      schema:
+        type: string
+      required: true
+    - in: query
+      name: page
+      schema:
+        type: number
+        example: 1
+        default: 1
+    - in: query
+      name: html
+      description: Convert the "description" field from markdown to HTML
+      schema:
+        type: boolean
+      example: true
+  responses:
+    "200":
+      description: A paginated list of the broadcasts created by a user.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              currentPage:
+                type: number
+                example: 4
+              maxPerPage:
+                type: number
+                example: 15
+              currentPageResults:
+                type: array
+                items:
+                  $ref: "../../schemas/BroadcastByUser.yaml"
+              nbResults:
+                type: number
+                example: 205194
+              previousPage:
+                type: [number, "null"]
+                example: 3
+              nextPage:
+                type: [number, "null"]
+                example: 5
+              nbPages:
+                type: number
+                example: 13680
+            required:
+              - currentPage
+              - maxPerPage
+              - currentPageResults
+              - nbResults
+              - previousPage
+              - nextPage
+              - nbPages
+          example:
+            $ref: "../../examples/broadcasts-getBroadcastsCreatedByUser.json"

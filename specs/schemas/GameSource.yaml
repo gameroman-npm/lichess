@@ -1,0 +1,15 @@
+type: string
+enum:
+  - lobby
+  - friend
+  - ai
+  - api
+  - tournament
+  - position
+  - import
+  - importlive
+  - simul
+  - relay
+  - pool
+  - arena
+  - swiss

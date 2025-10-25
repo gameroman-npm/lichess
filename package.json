@@ -5,6 +5,7 @@
   "author": "GameRoMan",
   "license": "MIT",
   "scripts": {
+    "gen:schemas": "bun ./scripts/yaml-to-zod && bun ./scripts/export-dir && bun run format",
     "test:types": "bunx tsc --noEmit",
     "format": "bunx biome format --write",
     "build": "bunx tsdown",
@@ -20,7 +21,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.0",
-    "@lichess-org/types": "^2.0.91",
+    "@lichess-org/types": "^2.0.93",
     "tsdown": "^0.15.9",
     "typescript": "^5.9.3"
   },

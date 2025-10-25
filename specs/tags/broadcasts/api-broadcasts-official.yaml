@@ -1,0 +1,39 @@
+get:
+  operationId: broadcastsOfficial
+  summary: Get official broadcasts
+  description: |
+    Returns ongoing official broadcasts sorted by tier. 
+    After that, returns finished broadcasts sorted by most recent sync time.
+    Broadcasts are streamed as [ndjson](#section/Introduction/Streaming-with-ND-JSON).
+  tags:
+    - Broadcasts
+  security: []
+  parameters:
+    - in: query
+      name: nb
+      description: Max number of broadcasts to fetch
+      schema:
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 100
+    - in: query
+      name: html
+      description: Convert the "description" field from markdown to HTML
+      schema:
+        type: boolean
+      example: true
+  responses:
+    "200":
+      description: The list of official broadcasts.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/x-ndjson:
+          schema:
+            $ref: "../../schemas/BroadcastWithRounds.yaml"
+          example:
+            $ref: "../../examples/broadcasts-getOfficialBroadcasts.json"

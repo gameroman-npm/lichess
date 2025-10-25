@@ -1,0 +1,129 @@
+get:
+  operationId: apiAccountPlaying
+  summary: Get my ongoing games
+  description: |
+    Get the ongoing games of the current user.
+    Real-time and correspondence games are included.
+    The most urgent games are listed first.
+  tags:
+    - Games
+  security:
+    - OAuth2: []
+  parameters:
+    - in: query
+      name: nb
+      description: Max number of games to fetch
+      schema:
+        type: integer
+        default: 9
+        minimum: 1
+        maximum: 50
+  responses:
+    "200":
+      description: The ongoing games of the logged in user.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nowPlaying
+            properties:
+              nowPlaying:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - gameId
+                    - fullId
+                    - color
+                    - fen
+                    - hasMoved
+                    - isMyTurn
+                    - lastMove
+                    - opponent
+                    - perf
+                    - rated
+                    - secondsLeft
+                    - source
+                    - speed
+                    - variant
+                  properties:
+                    fullId:
+                      type: string
+                    gameId:
+                      type: string
+                    fen:
+                      type: string
+                    color:
+                      $ref: "../../schemas/GameColor.yaml"
+                    lastMove:
+                      type: string
+                    source:
+                      $ref: "../../schemas/GameSource.yaml"
+                    status:
+                      $ref: "../../schemas/GameStatusName.yaml"
+                    variant:
+                      $ref: "../../schemas/Variant.yaml"
+                    speed:
+                      $ref: "../../schemas/Speed.yaml"
+                    perf:
+                      $ref: "../../schemas/PerfType.yaml"
+                    rated:
+                      type: boolean
+                    hasMoved:
+                      type: boolean
+                    opponent:
+                      required:
+                        - id
+                        - username
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        username:
+                          type: string
+                        rating:
+                          type: number
+                        ratingDiff:
+                          type: number
+                        ai:
+                          type: number
+                    isMyTurn:
+                      type: boolean
+                    secondsLeft:
+                      type: number
+                    tournamentId:
+                      type: string
+                    swissId:
+                      type: string
+                    winner:
+                      $ref: "../../schemas/GameColor.yaml"
+                    ratingDiff:
+                      type: number
+            example:
+              {
+                "nowPlaying":
+                  [
+                    {
+                      "gameId": "rCRw1AuO",
+                      "fullId": "rCRw1AuOvonq",
+                      "color": "black",
+                      "fen": "r1bqkbnr/pppp2pp/2n1pp2/8/8/3PP3/PPPB1PPP/RN1QKBNR w KQkq - 2 4",
+                      "hasMoved": true,
+                      "isMyTurn": false,
+                      "lastMove": "b8c6",
+                      "opponent": { "id": "philippe", "rating": 1790, "username": "Philippe" },
+                      "perf": "correspondence",
+                      "rated": false,
+                      "secondsLeft": 1209600,
+                      "source": "friend",
+                      "speed": "correspondence",
+                      "variant": { "key": "standard", "name": "Standard" },
+                    },
+                  ],
+              }

@@ -1,0 +1,52 @@
+get:
+  operationId: apiCloudEval
+  summary: Get cloud evaluation of a position.
+  description: |
+    Get the cached evaluation of a position, if available.
+    Opening positions have more chances of being available. There are about 15 million positions in the database.
+    Up to 5 variations may be available. Variants are supported.
+    Use this endpoint to fetch a few positions here and there.
+    If you want to download a lot of positions, [get the full list](https://database.lichess.org/#evals) from our exported database.
+  tags:
+    - Analysis
+  security: []
+  parameters:
+    - in: query
+      name: fen
+      required: true
+      description: FEN of the position
+      schema:
+        type: string
+      example: r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3
+    - in: query
+      name: multiPv
+      description: Number of variations
+      schema:
+        type: number
+        default: 1
+    - in: query
+      name: variant
+      description: Variant
+      schema:
+        $ref: "../../schemas/VariantKey.yaml"
+  responses:
+    "200":
+      description: The evaluation of the position.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/CloudEval.yaml"
+    "404":
+      description: The position was not found in the cloud evaluation database.
+      content:
+        application/json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: "No cloud evaluation available for that position"

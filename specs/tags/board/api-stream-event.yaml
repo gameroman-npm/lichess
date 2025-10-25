@@ -1,0 +1,55 @@
+get:
+  operationId: apiStreamEvent
+  summary: Stream incoming events
+  description: |
+    Stream the events reaching a lichess user in real time as [ndjson](#section/Introduction/Streaming-with-ND-JSON).
+
+    An empty line is sent every 7 seconds for keep alive purposes.
+
+    Each non-empty line is a JSON object containing a `type` field. Possible values are:
+    - `gameStart` Start of a game
+    - `gameFinish` Completion of a game
+    - `challenge` A player sends you a challenge or you challenge someone
+    - `challengeCanceled` A player cancels their challenge to you
+    - `challengeDeclined` The opponent declines your challenge
+
+    When the stream opens, all current challenges and games are sent.
+
+    Only one global event stream can be active at a time. When the stream opens, the previous one with the same access token is closed.
+  tags:
+    - Board
+    - Bot
+  security:
+    - OAuth2: ["challenge:read", "bot:play", "board:play"]
+  responses:
+    "200":
+      description: The stream of events reaching the logged in user.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/x-ndjson:
+          schema:
+            oneOf:
+              - $ref: "../../schemas/GameStartEvent.yaml"
+              - $ref: "../../schemas/GameFinishEvent.yaml"
+              - $ref: "../../schemas/ChallengeEvent.yaml"
+              - $ref: "../../schemas/ChallengeCanceledEvent.yaml"
+              - $ref: "../../schemas/ChallengeDeclinedEvent.yaml"
+          examples:
+            GameStartEvent:
+              $ref: "../../examples/stream-gameStart.json.yaml"
+            GameStartEvent (vs AI):
+              $ref: "../../examples/stream-gameStart-ai.json.yaml"
+            GameFinishEvent:
+              $ref: "../../examples/stream-gameFinish.json.yaml"
+            GameFinishEvent (vs AI):
+              $ref: "../../examples/stream-gameFinish-ai.json.yaml"
+            ChallengeEvent:
+              $ref: "../../examples/stream-challenge.json.yaml"
+            ChallengeDeclinedEvent:
+              $ref: "../../examples/stream-challengeDeclined.json.yaml"
+            ChallengeCanceledEvent:
+              $ref: "../../examples/stream-challengeCanceled.json.yaml"

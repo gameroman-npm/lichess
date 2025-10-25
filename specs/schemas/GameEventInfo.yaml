@@ -1,0 +1,47 @@
+type: object
+
+properties:
+  fullId:
+    type: string
+  gameId:
+    type: string
+  fen:
+    type: string
+  color:
+    $ref: "./GameColor.yaml"
+  lastMove:
+    type: string
+  source:
+    $ref: "./GameSource.yaml"
+  status:
+    $ref: "./GameStatus.yaml"
+  variant:
+    $ref: "./Variant.yaml"
+  speed:
+    $ref: "./Speed.yaml"
+  perf:
+    type: string
+  rated:
+    type: boolean
+  hasMoved:
+    type: boolean
+  opponent:
+    $ref: "./GameEventOpponent.yaml"
+  isMyTurn:
+    type: boolean
+  secondsLeft:
+    type: integer
+  winner:
+    $ref: "./GameColor.yaml"
+  ratingDiff:
+    type: integer
+  compat:
+    $ref: "./GameCompat.yaml"
+  id:
+    type: string
+  tournamentId:
+    type: string
+
+required:
+  - fullId
+  - gameId

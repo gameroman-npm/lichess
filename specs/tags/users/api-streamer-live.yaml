@@ -1,0 +1,61 @@
+get:
+  operationId: streamerLive
+  summary: Get live streamers
+  description: |
+    Get basic info about currently streaming users.
+    This API is very fast and cheap on lichess side.
+    So you can call it quite often (like once every 5 seconds).
+  tags:
+    - Users
+  security: []
+  responses:
+    "200":
+      description: The list of live streamers and their respective information.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              allOf:
+                - $ref: "../../schemas/LightUser.yaml"
+                - type: object
+                  properties:
+                    stream:
+                      type: object
+                      properties:
+                        service:
+                          type: string
+                          enum:
+                            - twitch
+                            - youTube
+                        status:
+                          type: string
+                          description: The stream title
+                        lang:
+                          type: string
+                    streamer:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        headline:
+                          type: string
+                        description:
+                          type: string
+                        twitch:
+                          type: string
+                          format: uri
+                        youTube:
+                          type: string
+                          format: uri
+                        image:
+                          type: string
+                          format: uri
+          example:
+            $ref: "../../examples/users-getLiveStreamers.json"

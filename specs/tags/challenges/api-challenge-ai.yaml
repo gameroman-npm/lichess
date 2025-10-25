@@ -1,0 +1,105 @@
+post:
+  operationId: challengeAi
+  summary: Challenge the AI
+  description: |
+    Start a game with Lichess AI.
+    You will be notified on the [event stream](#operation/apiStreamEvent) that a new game has started.
+  tags:
+    - Challenges
+  security:
+    - OAuth2: ["challenge:write", "bot:play", "board:play"]
+  requestBody:
+    description: Parameters of the game
+    required: true
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          type: object
+          properties:
+            level:
+              type: number
+              description: AI strength
+              minimum: 1
+              maximum: 8
+            "clock.limit":
+              type: number
+              description: Clock initial time in seconds. If empty, a correspondence game is created.
+              example: 300
+              minimum: 0
+              maximum: 10800
+            "clock.increment":
+              type: integer
+              description: Clock increment in seconds. If empty, a correspondence game is created.
+              example: 1
+              minimum: 0
+              maximum: 60
+            days:
+              type: integer
+              description: Days per move, for correspondence games. Clock settings must be omitted.
+              enum:
+                - 1
+                - 2
+                - 3
+                - 5
+                - 7
+                - 10
+                - 14
+            color:
+              $ref: "../../schemas/ChallengeColor.yaml"
+              description: Which color you get to play
+              default: "random"
+            variant:
+              $ref: "../../schemas/VariantKey.yaml"
+            fen:
+              $ref: "../../schemas/FromPositionFEN.yaml"
+          required:
+            - level
+  responses:
+    "201":
+      description: The game with Lichess AI was successfully started.
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+            default: "'*'"
+      content:
+        application/json:
+          schema:
+            properties:
+              id:
+                type: string
+                minLength: 8
+                maxLength: 8
+              variant:
+                $ref: "../../schemas/Variant.yaml"
+              speed:
+                $ref: "../../schemas/Speed.yaml"
+              perf:
+                $ref: "../../schemas/PerfType.yaml"
+              rated:
+                type: boolean
+              fen:
+                type: string
+              turns:
+                type: integer
+              source:
+                $ref: "../../schemas/GameSource.yaml"
+              status:
+                $ref: "../../schemas/GameStatus.yaml"
+              createdAt:
+                type: number
+                format: int64
+              player:
+                $ref: "../../schemas/GameColor.yaml"
+              fullId:
+                type: string
+                minLength: 12
+                maxLength: 12
+          example:
+            $ref: "../../examples/challenges-challengeAi.json"
+    "400":
+      description: The creation of a game with Lichess AI failed.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"
