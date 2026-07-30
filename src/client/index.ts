@@ -1886,12 +1886,14 @@ export class Lichess {
     body: {
       name: string;
       visibility: "public" | "unlisted" | "private";
+      flair?: schemas.Flair;
       computer: schemas.StudyUserSelection;
       explorer: schemas.StudyUserSelection;
       cloneable: schemas.StudyUserSelection;
       shareable: schemas.StudyUserSelection;
       chat: schemas.StudyUserSelection;
-      sticky?: "true" | "false";
+      sticky?: boolean;
+      description?: boolean;
     };
   }) {
     const path = "/api/study" as const;
