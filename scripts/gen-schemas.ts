@@ -67,10 +67,10 @@ async function main() {
     .map((file) => path.basename(file, ".ts"));
 
   const importLines = tsFiles.map(
-    (name) => `export { ${name} } from "./${name}";` as const,
+    (name) => `export { ${name} } from "./schemas/${name}";` as const,
   );
   const content = importLines.join("\n");
-  const outFile = `${outDir}/index.ts` as const;
+  const outFile = "src/schemas.ts" as const;
   await Bun.write(outFile, content);
   console.log("Schemas generated");
 }

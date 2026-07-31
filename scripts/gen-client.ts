@@ -1,14 +1,12 @@
 import * as z from "zod";
-
+import type { QueryParamSchemaSchema, Schema } from "./shared";
 import {
   assertNever,
   convertToZod,
   OperationParameterBase,
   OperationQueryParameterSchema,
-  type QueryParamSchemaSchema,
   recordToObject,
   refToName,
-  type Schema,
   SchemaSchema,
   SchemaSchemaBoolean,
   SchemaSchemaPrimitive,
@@ -669,7 +667,7 @@ function processOperation(
   const fullMethod = `
   ${jsdoc}
   async ${operation.operationId}(${paramsDecl}) {
-    const path = ${pathLiteral} as const;
+    const path = ${pathLiteral};
 ${baseUrlLine}\
     return await this.requestor.${operation.__method}(
       { ${requestObjCode}${baseUrlArg} },
@@ -726,10 +724,8 @@ async function processSchema(schema: OpenApiSchema): Promise<void> {
   const API_URL = schema.servers[0].url;
 
   const clientCodeTs = `import * as z from "minizod";
-
-import * as schemas from "#schemas";
-
-import { Requestor } from "./requestor";
+import { Requestor } from "./lib/requestor";
+import * as schemas from "./schemas";
 
 const BASE_URL = "${API_URL}";
 
@@ -745,8 +741,7 @@ export class Lichess {
 }
 ` as const;
 
-  const clientDir = "src/client" as const;
-  const clientCodePath = `${clientDir}/index.ts` as const;
+  const clientCodePath = "src/index.ts" as const;
 
   Bun.write(clientCodePath, clientCodeTs);
 }
