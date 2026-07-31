@@ -168,6 +168,7 @@ const ResponseContentMixed = z
 
 const ResponseContentNoContent = z
   .undefined()
+  .optional()
   .transform(() => ({ __content_type: "nocontent" as const }));
 
 const ResponseContent = z.union([
