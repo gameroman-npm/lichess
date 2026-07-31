@@ -35,7 +35,7 @@
     "lint": "biome check",
     "prepublishOnly": "bun run build",
     "test": "bun test",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "minizod": "0.0.3"
