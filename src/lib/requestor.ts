@@ -1,5 +1,5 @@
 import type * as z from "minizod";
-import { ndjsonStream } from "#lib/ndjson";
+import { ndjsonStream } from "./ndjson";
 
 type QueryParams = Record<
   string,

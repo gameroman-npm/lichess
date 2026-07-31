@@ -16,7 +16,7 @@ const BaseSchema = z.object({
   default: Primitive.nullish(),
 
   // `example` can be on any schema
-  example: z.unknown(),
+  example: z.unknown().optional(),
 
   // `description` and `deprecated` can be on any schema
   description: z.string().optional(),
