@@ -19,6 +19,7 @@ export { BroadcastGameEntry } from "./schemas/BroadcastGameEntry";
 export { BroadcastGroup } from "./schemas/BroadcastGroup";
 export { BroadcastGroupTour } from "./schemas/BroadcastGroupTour";
 export { BroadcastMyRound } from "./schemas/BroadcastMyRound";
+export { BroadcastPgn } from "./schemas/BroadcastPgn";
 export { BroadcastPgnPush } from "./schemas/BroadcastPgnPush";
 export { BroadcastPgnPushTags } from "./schemas/BroadcastPgnPushTags";
 export { BroadcastPhotos } from "./schemas/BroadcastPhotos";
