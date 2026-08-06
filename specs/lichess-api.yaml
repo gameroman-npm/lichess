@@ -1,6 +1,6 @@
 openapi: "3.1.0"
 info:
-  version: 2.0.157
+  version: 2.0.162
   title: Lichess.org API reference
   contact:
     name: "Lichess.org API"
@@ -540,6 +540,9 @@ paths:
   /api/stream/broadcast/round/{broadcastRoundId}.pgn:
     $ref: "./tags/broadcasts/api-stream-broadcast-round-broadcastRoundId-pgn.yaml"
 
+  /api/stream/broadcast/tour/{broadcastTourId}.pgn:
+    $ref: "./tags/broadcasts/api-stream-broadcast-tour-broadcastTourId-pgn.yaml"
+
   /api/stream/broadcast/group/{broadcastGroupId}.pgn:
     $ref: "./tags/broadcasts/api-stream-broadcast-group-broadcastGroupId-pgn.yaml"
 
@@ -599,6 +602,12 @@ paths:
 
   /api/team/{teamId}/kick/{userId}:
     $ref: "./tags/teams/api-team-teamId-kick-userId.yaml"
+
+  /team/updates:
+    $ref: "./tags/teams/team-updates.yaml"
+
+  /team/updates/{teamId}:
+    $ref: "./tags/teams/team-updates-teamId.yaml"
 
   /team/{teamId}/pm-all:
     $ref: "./tags/teams/team-teamId-pm-all.yaml"

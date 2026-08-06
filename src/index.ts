@@ -2278,6 +2278,22 @@ export class Lichess {
   }
 
   /**
+   * Stream ongoing broadcast rounds of a tournament as PGN
+   */
+  async broadcastStreamTourPgn(
+    params: { broadcastTourId: string } & {
+      clocks?: boolean;
+      comments?: boolean;
+    },
+  ) {
+    const path = `/api/stream/broadcast/tour/${params.broadcastTourId}.pgn`;
+    return await this.requestor.get(
+      { path, query: { clocks: params.clocks, comments: params.comments } },
+      { 200: { kind: "chess-pgn" } },
+    );
+  }
+
+  /**
    * Stream ongoing broadcast rounds of a group as PGN
    */
   async broadcastStreamGroupPgn(
@@ -2556,7 +2572,29 @@ export class Lichess {
   }
 
   /**
-   * Message all members
+   * Get updates from your teams
+   */
+  async teamUpdates(params: { page?: number }) {
+    const path = "/team/updates";
+    return await this.requestor.get(
+      { path, query: params },
+      { 200: { kind: "json", schema: schemas.TeamUpdates } },
+    );
+  }
+
+  /**
+   * Get updates from one of your teams
+   */
+  async teamUpdatesByTeamId(params: { teamId: string } & { page?: number }) {
+    const path = `/team/updates/${params.teamId}`;
+    return await this.requestor.get(
+      { path, query: { page: params.page } },
+      { 200: { kind: "json", schema: schemas.TeamUpdatesOfTeam } },
+    );
+  }
+
+  /**
+   * Send a team update
    */
   async teamIdPmAll(
     params: { teamId: string } & { body: { message?: string } },
