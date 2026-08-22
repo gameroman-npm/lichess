@@ -38,7 +38,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "minizod": "0.0.3"
+    "minizod": "0.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.9",
