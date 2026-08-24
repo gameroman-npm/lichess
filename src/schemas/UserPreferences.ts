@@ -1,8 +1,6 @@
 import * as z from "minizod";
 
 const UserPreferences = z.object({
-  dark: z.optional(z.boolean()),
-  transp: z.optional(z.boolean()),
   bgImg: z.optional(z.url()),
   is3d: z.optional(z.boolean()),
   theme: z.optional(
