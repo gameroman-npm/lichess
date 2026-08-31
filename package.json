@@ -46,7 +46,7 @@
     "@types/bun": "1.4.0",
     "tsdown": "0.22.14",
     "typescript": "7.0.2",
-    "zod": "4.5.2"
+    "zod": "4.5.4"
   },
   "engines": {
     "node": ">=24"
