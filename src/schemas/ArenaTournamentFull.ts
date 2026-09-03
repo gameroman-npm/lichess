@@ -98,6 +98,7 @@ const ArenaTournamentFull = z.object({
             rating: z.optional(z.int()),
             score: z.optional(z.int()),
             sheet: z.optional(ArenaSheet),
+            realName: z.optional(z.string()),
           }),
         ),
       ),

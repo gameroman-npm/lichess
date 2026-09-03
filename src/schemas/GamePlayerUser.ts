@@ -8,7 +8,6 @@ const GamePlayerUser = z.object({
   ratingDiff: z.optional(z.int()),
   name: z.optional(z.string()),
   provisional: z.optional(z.boolean()),
-  aiLevel: z.optional(z.int()),
   analysis: z.optional(
     z.object({
       inaccuracy: z.int(),
@@ -16,6 +15,13 @@ const GamePlayerUser = z.object({
       blunder: z.int(),
       acpl: z.int(),
       accuracy: z.optional(z.int()),
+      phases: z.optional(
+        z.object({
+          opening: z.optional(z.int()),
+          middlegame: z.optional(z.int()),
+          endgame: z.optional(z.int()),
+        }),
+      ),
     }),
   ),
   team: z.optional(z.string()),

@@ -6,6 +6,7 @@ const BroadcastRoundInfo = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
+  createdAt: z.optional(z.int()),
   ongoing: z.optional(z.boolean()),
   startsAt: z.optional(z.int()),
   startsAfterPrevious: z.optional(z.boolean()),
