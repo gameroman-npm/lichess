@@ -80,6 +80,7 @@ export { GameJson } from "./schemas/GameJson";
 export { GameMoveAnalysis } from "./schemas/GameMoveAnalysis";
 export { GameOpening } from "./schemas/GameOpening";
 export { GamePgn } from "./schemas/GamePgn";
+export { GamePlayerAi } from "./schemas/GamePlayerAi";
 export { GamePlayers } from "./schemas/GamePlayers";
 export { GamePlayerUser } from "./schemas/GamePlayerUser";
 export { GameSource } from "./schemas/GameSource";
