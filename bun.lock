@@ -5,7 +5,7 @@
     "": {
       "name": "@lichess/api",
       "dependencies": {
-        "minizod": "0.1.0",
+        "minizod": "0.2.1",
       },
       "devDependencies": {
         "@biomejs/biome": "2.5.11",
@@ -194,7 +194,7 @@
 
     "import-without-cache": ["import-without-cache@0.4.0", "", {}, "sha512-NkJQA7oZ4YHQhd2+H3BoRFKF3d/XNsiKpHZCQEMH9pDX27hQQLsTyOocyRgaIVtf8gHX3Nt3LPkR4e5EdtPAGQ=="],
 
-    "minizod": ["minizod@0.1.0", "", {}, "sha512-IupwnZEwgodSFFGJDFBWv8FHO8Hu0ALOBTR7fQPwGPrLK2igiiRyPgQChDNOHdpWDQIIMInpjv8wUYXS/GO3qA=="],
+    "minizod": ["minizod@0.2.1", "", {}, "sha512-aEMHdASHkn1Wmd6DJ+RfqK+0m7xdZJ8IryJa/4r8JGDzBGT31S4eXHrxlOUtTWCHWhzpB6OdenY+UDbvN9WT5A=="],
 
     "obug": ["obug@2.1.4", "", {}, "sha512-4a+OsYv9UktOJKE+l1A4OufDgdRF9PifWj+tJnHURo/P+WOxpG4GzUFL9qCalmWauao6ogiG+QvnCovwPoyAWA=="],
 
