@@ -391,17 +391,6 @@ export class Lichess {
   }
 
   /**
-   * Get my timeline
-   */
-  async timeline(params: { since?: number; nb?: number }) {
-    const path = "/api/timeline";
-    return await this.requestor.get(
-      { path, query: params },
-      { 200: { kind: "json", schema: schemas.Timeline } },
-    );
-  }
-
-  /**
    * Export one game
    */
   async gamePgn(
